@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+  --color-my-black: #040513;
+  --color-my-black-hover: #080924;
+}
+.trial {
+  color: #080924;
+}

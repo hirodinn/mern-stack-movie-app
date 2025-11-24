@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Header from "./component/Header";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -20,7 +21,8 @@ function App() {
   }, []);
 
   return (
-    <main>
+    <main className="bg-my-black text-white">
+      <Header />
       {movies.map((movie, i) => {
         return <div key={i}>{movie.title}</div>;
       })}
