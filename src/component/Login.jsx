@@ -11,6 +11,9 @@ export default function Login({ setIsLogged }) {
       email,
       password,
     });
+    if (user.data) {
+      setIsLogged(true);
+    }
     console.log(user);
   }
 

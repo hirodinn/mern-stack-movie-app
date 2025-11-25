@@ -25,7 +25,7 @@ export function validateNewUser(obj) {
   const schema = Joi.object({
     name: Joi.string().required().min(5),
     password: Joi.string().required().min(8),
-    email: Joi.email().required(),
+    email: Joi.string().email().required(),
   });
   return schema.validate(obj || {});
 }
