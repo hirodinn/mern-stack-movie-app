@@ -36,6 +36,7 @@ route.post("/login", async (req, res) => {
       name: user.name,
       id: user._id,
       email: user.email,
+      favMovies: user.favMovies,
     };
     if (isValid) res.send(userNoP);
     else res.status(404).send("email or password error");

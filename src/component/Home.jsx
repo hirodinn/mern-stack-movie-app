@@ -2,8 +2,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./Header";
 
-export default function Home() {
+export default function Home({ user }) {
   const [movies, setMovies] = useState([]);
+  console.log(user);
   useEffect(() => {
     const loadMovies = async () => {
       try {
@@ -13,7 +14,6 @@ export default function Home() {
           }`
         );
         setMovies(popular.data.results);
-        console.log(popular.data.results);
       } catch (ex) {
         console.log(ex);
       }
@@ -32,37 +32,45 @@ export default function Home() {
     <main className="bg-my-black text-white pt-30 h-fit">
       <Header />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
-        {movies.map((movie, i) => {
-          return (
-            <div
-              key={i}
-              className="w-65 h-155 cursor-pointer bg-my-black-hover flex flex-col p-4 rounded-2xl"
-            >
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              />
-              <div className="flex-1">
-                <h4 className="my-2 font-bold text-2xl">
-                  {movie.title.length < 30
-                    ? movie.title
-                    : movie.title.slice(0, 30) + " ..."}
-                </h4>
-                <p>
-                  {movie.overview.length < 100
-                    ? movie.overview
-                    : movie.overview.slice(0, 100) + " ..."}
-                </p>
-              </div>
+        {user &&
+          movies.map((movie, i) => {
+            return (
               <div
-                className={`${returnRatingColor(
-                  Number(movie.vote_average)
-                )} ml-auto`}
+                key={i}
+                className="w-65 h-155 cursor-pointer bg-my-black-hover flex flex-col p-4 rounded-2xl"
               >
-                {movie.vote_average}
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                />
+                <div className="flex-1">
+                  <h4 className="my-2 font-bold text-2xl">
+                    {movie.title.length < 30
+                      ? movie.title
+                      : movie.title.slice(0, 30) + " ..."}
+                  </h4>
+                  <p>
+                    {movie.overview.length < 100
+                      ? movie.overview
+                      : movie.overview.slice(0, 100) + " ..."}
+                  </p>
+                </div>
+                <div className="flex justify-between">
+                  <div className="bg-white text-black px-4 py-1 rounded-1xl">
+                    {user.favMovies.includes(movie.id)
+                      ? "remove from fav"
+                      : "add to fav"}
+                  </div>
+                  <div
+                    className={`${returnRatingColor(
+                      Number(movie.vote_average)
+                    )}`}
+                  >
+                    {movie.vote_average}
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </main>
   );

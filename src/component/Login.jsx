@@ -16,7 +16,8 @@ export default function Login({ setIsLogged, setUser }) {
     });
     if (user.data) {
       setIsLogged(true);
-      setUser(user);
+      console.log(user.data);
+      setUser(user.data);
       setTimeout(() => {
         navigate("/home");
       }, 100);

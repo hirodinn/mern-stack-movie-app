@@ -4,11 +4,12 @@ import Home from "./component/Home";
 import Login from "./component/Login";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(true);
-  const [user, setUser] = useState();
+  const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState(null);
+  console.log(user);
   return (
     <Routes>
-      {isLogged && <Route path="/home" element={<Home />} user={user} />}
+      {isLogged && <Route path="/home" element={<Home user={user} />} />}
       <Route
         path="/*"
         element={<Login setIsLogged={setIsLogged} setUser={setUser} />}
