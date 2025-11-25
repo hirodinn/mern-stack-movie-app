@@ -28,6 +28,19 @@ export default function Home({ user }) {
     else return "text-red-700";
   }
 
+  async function removeFromFav(id) {
+    try {
+      await axios.delete(`http://localhost:3000/api/users/${user.id}`, {
+        data: {
+          movieId: id,
+        },
+      });
+      console.log("delted successfully");
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
   return (
     <main className="bg-my-black text-white pt-30 h-fit">
       <Header />
@@ -55,7 +68,12 @@ export default function Home({ user }) {
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <div className="bg-white text-black px-4 py-1 rounded-xl cursor-pointer">
+                  <div
+                    className="bg-white text-black px-4 py-1 rounded-xl cursor-pointer"
+                    onClick={() => {
+                      removeFromFav(movie.id);
+                    }}
+                  >
                     {user.favMovies.includes(movie.id)
                       ? "remove from fav"
                       : "add to fav"}
