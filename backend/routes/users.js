@@ -13,6 +13,7 @@ route.post("/", async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
+      favMovies: req.body.favMovies,
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);

@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
   },
+  favMovies: {
+    type: Array,
+    required: true,
+  },
 });
 
 export const User = mongoose.model("User", userSchema);
@@ -26,6 +30,7 @@ export function validateNewUser(obj) {
     name: Joi.string().required().min(5),
     password: Joi.string().required().min(8),
     email: Joi.string().email().required(),
+    favMovies: Joi.array().required(),
   });
   return schema.validate(obj || {});
 }
