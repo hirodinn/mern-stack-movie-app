@@ -1,6 +1,11 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { User, validateNewUser, validateOldUser } from "../model/user.js";
+import {
+  User,
+  validateNewUser,
+  validateOldUser,
+  validateId,
+} from "../model/user.js";
 
 const route = express.Router();
 
@@ -46,6 +51,10 @@ route.post("/login", async (req, res) => {
 });
 
 route.delete("/:id", async (req, res) => {
+  let { error } = validateId(req.params.id || "");
+  if (error) return res.status.send(error.details[0].message);
+  error = validateId(req.body.movieId || "").error;
+  if (error) return res.status.send(error.details[0].message);
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).send("can't find the user with ID");
