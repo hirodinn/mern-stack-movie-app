@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Login({ setIsLogged }) {
+export default function Login({ setIsLogged, setUser }) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -16,6 +16,7 @@ export default function Login({ setIsLogged }) {
     });
     if (user.data) {
       setIsLogged(true);
+      setUser(user);
       setTimeout(() => {
         navigate("/home");
       }, 100);

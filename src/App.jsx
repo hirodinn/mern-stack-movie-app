@@ -4,11 +4,15 @@ import Home from "./component/Home";
 import Login from "./component/Login";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState();
   return (
     <Routes>
-      <Route index element={<Login setIsLogged={setIsLogged} />} />
-      {isLogged && <Route path="/home" element={<Home />} />}
+      {isLogged && <Route path="/home" element={<Home />} user={user} />}
+      <Route
+        path="/*"
+        element={<Login setIsLogged={setIsLogged} setUser={setUser} />}
+      />
     </Routes>
   );
 }
