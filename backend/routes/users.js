@@ -45,4 +45,19 @@ route.post("/login", async (req, res) => {
   }
 });
 
+route.delete("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).send("can't find the user with ID");
+    const modifiedFav = user.favMovies.filter(
+      (fav) => fav !== req.body.movieId
+    );
+    user.favMovies = modifiedFav;
+    await user.save();
+    res.send(user);
+  } catch (ex) {
+    res.status(500).send(ex.message);
+  }
+});
+
 export default route;

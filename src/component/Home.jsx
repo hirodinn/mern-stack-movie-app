@@ -37,7 +37,7 @@ export default function Home({ user }) {
             return (
               <div
                 key={i}
-                className="w-65 h-155 cursor-pointer bg-my-black-hover flex flex-col p-4 rounded-2xl"
+                className="w-65 h-155 bg-my-black-hover flex flex-col p-4 rounded-2xl"
               >
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -55,7 +55,7 @@ export default function Home({ user }) {
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <div className="bg-white text-black px-4 py-1 rounded-1xl">
+                  <div className="bg-white text-black px-4 py-1 rounded-xl cursor-pointer">
                     {user.favMovies.includes(movie.id)
                       ? "remove from fav"
                       : "add to fav"}

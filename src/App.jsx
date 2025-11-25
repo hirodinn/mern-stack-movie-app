@@ -4,7 +4,7 @@ import Home from "./component/Home";
 import Login from "./component/Login";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const [user, setUser] = useState(null);
   console.log(user);
   return (
