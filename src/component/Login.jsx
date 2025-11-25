@@ -7,10 +7,11 @@ export default function Login({ setIsLogged }) {
 
   async function validateUser(e) {
     e.preventDefault();
-    const user = await axios.get("http://localhost:3000/api/user", {
-      password: password,
-      email: email,
+    const user = await axios.post("http://localhost:3000/api/users/login", {
+      email,
+      password,
     });
+    console.log(user);
   }
 
   return (

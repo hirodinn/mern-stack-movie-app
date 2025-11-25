@@ -27,12 +27,12 @@ export function validateNewUser(obj) {
     password: Joi.string().required().min(8),
     email: Joi.email().required(),
   });
-  return schema.validate(obj);
+  return schema.validate(obj || {});
 }
 export function validateOldUser(obj) {
   const schema = Joi.object({
     password: Joi.string().required().min(8),
-    email: Joi.email().required(),
+    email: Joi.string().email().required(),
   });
-  return schema.validate(obj);
+  return schema.validate(obj || {});
 }
