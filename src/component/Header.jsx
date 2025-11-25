@@ -2,8 +2,8 @@ import { useState } from "react";
 export default function Header() {
   const [inputValue, setInputValue] = useState("");
   return (
-    <header className="h-15 flex items-center">
-      <form className="w-[90%] max-w-4xl mx-auto h-[70%] flex text-[19px]">
+    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-black">
+      <form className="w-[90%] max-w-4xl mx-auto h-[60%] flex text-[19px]">
         <input
           type="text"
           required
