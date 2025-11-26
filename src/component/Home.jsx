@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./Header";
 
-export default function Home({ user }) {
+export default function Home({ user, token }) {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     const loadMovies = async () => {
@@ -29,7 +29,10 @@ export default function Home({ user }) {
 
   async function removeFromFav(id) {
     try {
-      await axios.delete(`http://localhost:3000/api/users/${user.id}`, {
+      await axios.delete(`http://localhost:3000/api/users`, {
+        headers: {
+          "x-auth-token": token,
+        },
         data: {
           movieId: id,
         },

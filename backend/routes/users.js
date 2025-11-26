@@ -1,13 +1,9 @@
+/* eslint-disable no-undef */
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import {
-  User,
-  validateNewUser,
-  validateOldUser,
-  validateId,
-} from "../model/user.js";
+import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
 const route = express.Router();
 
@@ -34,11 +30,9 @@ route.post("/", async (req, res) => {
 
 route.get("/me", async (req, res) => {
   const token = req.header("x-auth-token");
-  console.log(token);
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
 
   try {
-    // eslint-disable-next-line no-undef
     const decoded = jwt.verify(token, process.env.JWT_KEY);
     console.log("decoded");
     const user = await User.findById(decoded._id).select("-password");
@@ -63,13 +57,12 @@ route.post("/login", async (req, res) => {
   }
 });
 
-route.delete("/:id", async (req, res) => {
-  let { error } = validateId(req.params.id || "");
-  if (error) return res.status.send(error.details[0].message);
-  console.log(req.params.id);
-  console.log(req.body);
+route.delete("/", async (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) return res.status(401).send("Access denied. No Token Provided!");
   try {
-    const user = await User.findById(req.params.id);
+    const id = jwt.verify(token, process.env.JWT_KEY)._id;
+    const user = await User.findById(id);
     if (!user) return res.status(404).send("can't find the user with ID");
     const modifiedFav = user.favMovies.filter(
       (fav) => fav !== req.body.movieId
@@ -77,6 +70,7 @@ route.delete("/:id", async (req, res) => {
     user.favMovies = modifiedFav;
     await user.save();
     res.send(user);
+    console.log(user);
   } catch (ex) {
     res.status(500).send(ex.message);
   }

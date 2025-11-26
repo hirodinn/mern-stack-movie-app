@@ -10,7 +10,9 @@ function App() {
   const [user, setUser] = useState(null);
   return (
     <Routes>
-      {token && <Route path="/home" element={<Home user={user} />} />}
+      {token && (
+        <Route path="/home" element={<Home user={user} token={token} />} />
+      )}
       <Route
         path="/*"
         element={<Login setToken={setToken} setUser={setUser} />}
