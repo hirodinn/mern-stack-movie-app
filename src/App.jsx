@@ -5,13 +5,16 @@ import Login from "./component/Login";
 
 function App() {
   const [token, setToken] = useState(
-    JSON.parse(localStorage.getItem("token")) || null
+    JSON.parse(localStorage.getItem("token")) || ""
   );
   const [user, setUser] = useState(null);
   return (
     <Routes>
-      {token && (
-        <Route path="/home" element={<Home user={user} token={token} />} />
+      {token.length && (
+        <Route
+          path="/home"
+          element={<Home user={user} token={token} setUser={setUser} />}
+        />
       )}
       <Route
         path="/*"

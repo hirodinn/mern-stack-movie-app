@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./Header";
 
-export default function Home({ user, token }) {
+export default function Home({ user, token, setUser }) {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     const loadMovies = async () => {
@@ -13,6 +13,12 @@ export default function Home({ user, token }) {
           }`
         );
         setMovies(popular.data.results);
+        const u = await axios.get("http://localhost:3000/api/users/me", {
+          headers: {
+            "x-auth-token": token,
+          },
+        });
+        setUser(u.data);
       } catch (ex) {
         console.log(ex);
       }

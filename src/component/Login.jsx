@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Login({ setToken, setUser }) {
+export default function Login({ setToken }) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -16,12 +16,8 @@ export default function Login({ setToken, setUser }) {
     });
     if (user.data) {
       setToken(user.data);
-      const u = await axios.get("http://localhost:3000/api/users/me", {
-        headers: {
-          "x-auth-token": user.data,
-        },
-      });
-      setUser(u.data);
+
+      localStorage.setItem("token", JSON.stringify(user.data));
       setTimeout(() => {
         navigate("/home");
       }, 100);
