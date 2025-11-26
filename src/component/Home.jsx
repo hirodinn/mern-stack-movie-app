@@ -34,9 +34,9 @@ export default function Home({ user, token, setUser }) {
     else return "text-red-700";
   }
 
-  async function removeFromFav(id) {
+  async function toggleFav(id) {
     try {
-      await axios.post(
+      const user = await axios.post(
         `http://localhost:3000/api/users/favMovies`,
         {
           movieId: id,
@@ -47,6 +47,7 @@ export default function Home({ user, token, setUser }) {
           },
         }
       );
+      setUser(user.data);
     } catch (ex) {
       console.log(ex);
     }
@@ -82,7 +83,7 @@ export default function Home({ user, token, setUser }) {
                   <div
                     className="bg-white text-black px-4 py-1 rounded-xl cursor-pointer"
                     onClick={() => {
-                      removeFromFav(movie.id);
+                      toggleFav(movie.id);
                     }}
                   >
                     {user.favMovies.includes(movie.id)
