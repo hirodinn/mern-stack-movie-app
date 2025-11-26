@@ -7,6 +7,7 @@ export default function Header() {
     e.preventDefault();
     if (inputValue.length) navigate(`/home?query=${inputValue}`);
     else navigate("/home");
+    setInputValue("");
   }
   return (
     <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-black">
