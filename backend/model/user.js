@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Joi from "joi";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -22,6 +23,15 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+userSchema.methods.getAuthToken = function () {
+  const token = jwt.sign(
+    { _id: this._id, favMovies: this.favMovies },
+    // eslint-disable-next-line no-undef
+    process.env.JWT_KEY
+  );
+  return token;
+};
 
 export const User = mongoose.model("User", userSchema);
 

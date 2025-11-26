@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import Joi from "joi";
 import joi from "joi-objectid";
+import dotenv from "dotenv";
 import users from "./routes/users.js";
+dotenv.config();
 const app = express();
 
 Joi.objectId = joi(Joi);

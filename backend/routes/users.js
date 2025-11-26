@@ -1,5 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 import {
   User,
   validateNewUser,
@@ -30,6 +32,22 @@ route.post("/", async (req, res) => {
   }
 });
 
+route.get("/me", async (req, res) => {
+  const token = req.header("x-auth-token");
+  console.log(token);
+  if (!token) return res.status(401).send("Access denied. No Token Provided!");
+
+  try {
+    // eslint-disable-next-line no-undef
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    console.log("decoded");
+    const user = await User.findById(decoded._id).select("-password");
+    res.send(user);
+  } catch {
+    res.status(400).send("Invalid token");
+  }
+});
+
 route.post("/login", async (req, res) => {
   const { error } = validateOldUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -37,13 +55,8 @@ route.post("/login", async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(404).send("email or password error");
     const isValid = await bcrypt.compare(req.body.password, user.password);
-    const userNoP = {
-      name: user.name,
-      id: user._id,
-      email: user.email,
-      favMovies: user.favMovies,
-    };
-    if (isValid) res.send(userNoP);
+    const token = user.getAuthToken();
+    if (isValid) res.send(token);
     else res.status(404).send("email or password error");
   } catch (ex) {
     res.status(500).send(ex.message);

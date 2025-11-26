@@ -4,7 +4,6 @@ import Header from "./Header";
 
 export default function Home({ user }) {
   const [movies, setMovies] = useState([]);
-  console.log(user);
   useEffect(() => {
     const loadMovies = async () => {
       try {

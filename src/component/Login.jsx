@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Login({ setIsLogged, setUser }) {
+export default function Login({ setToken, setUser }) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -15,9 +15,13 @@ export default function Login({ setIsLogged, setUser }) {
       password,
     });
     if (user.data) {
-      setIsLogged(true);
-      console.log(user.data);
-      setUser(user.data);
+      setToken(user.data);
+      const u = await axios.get("http://localhost:3000/api/users/me", {
+        headers: {
+          "x-auth-token": user.data,
+        },
+      });
+      setUser(u.data);
       setTimeout(() => {
         navigate("/home");
       }, 100);
