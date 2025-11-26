@@ -24,6 +24,7 @@ export default function Home({ user, token, setUser }) {
       }
     };
     loadMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function returnRatingColor(rating) {
@@ -35,15 +36,17 @@ export default function Home({ user, token, setUser }) {
 
   async function removeFromFav(id) {
     try {
-      await axios.delete(`http://localhost:3000/api/users`, {
-        headers: {
-          "x-auth-token": token,
-        },
-        data: {
+      await axios.post(
+        `http://localhost:3000/api/users/favMovies`,
+        {
           movieId: id,
         },
-      });
-      console.log("delted successfully");
+        {
+          headers: {
+            "x-auth-token": token,
+          },
+        }
+      );
     } catch (ex) {
       console.log(ex);
     }
