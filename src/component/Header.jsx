@@ -1,9 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function Header() {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
+  function search(e) {
+    e.preventDefault();
+    navigate(`/home?query=${inputValue}`);
+  }
   return (
     <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-black">
-      <form className="w-[90%] max-w-4xl mx-auto h-[60%] flex text-[19px]">
+      <form
+        className="w-[90%] max-w-4xl mx-auto h-[60%] flex text-[19px]"
+        onSubmit={search}
+      >
         <input
           type="text"
           required

@@ -17,7 +17,7 @@ function App() {
         />
       )}
       <Route
-        path="/*"
+        path="/login"
         element={<Login setToken={setToken} setUser={setUser} />}
       />
     </Routes>

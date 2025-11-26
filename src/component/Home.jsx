@@ -9,10 +9,12 @@ export default function Home({ user, token, setUser }) {
   useEffect(() => {
     const loadMovies = async () => {
       try {
-        const searchString = searchParams.get("query")
-          ? `https://api.themoviedb.org/3/search/movie?api_key=YOUR_TMDB_KEY&query=${searchParams.get(
-              "query"
-            )}&page=1`
+        const query = searchParams.get("query");
+
+        const searchString = query
+          ? `https://api.themoviedb.org/3/search/movie?api_key=${
+              import.meta.env.VITE_TMDB_KEY
+            }&query=${query}&page=1`
           : `https://api.themoviedb.org/3/movie/popular?api_key=${
               import.meta.env.VITE_TMDB_KEY
             }`;
@@ -30,7 +32,7 @@ export default function Home({ user, token, setUser }) {
     };
     loadMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchParams]);
 
   function returnRatingColor(rating) {
     if (rating >= 8) return "text-blue-700";
