@@ -34,7 +34,6 @@ route.get("/me", async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_KEY);
-    console.log("decoded");
     const user = await User.findById(decoded._id).select("-password");
     res.send(user);
   } catch {
@@ -57,29 +56,9 @@ route.post("/login", async (req, res) => {
   }
 });
 
-route.delete("/", async (req, res) => {
-  const token = req.header("x-auth-token");
-  if (!token) return res.status(401).send("Access denied. No Token Provided!");
-  try {
-    const id = jwt.verify(token, process.env.JWT_KEY)._id;
-    const user = await User.findById(id);
-    if (!user) return res.status(404).send("can't find the user with ID");
-    const modifiedFav = user.favMovies.filter(
-      (fav) => fav !== req.body.movieId
-    );
-    user.favMovies = modifiedFav;
-    await user.save();
-    res.send(user);
-    console.log(user);
-  } catch (ex) {
-    res.status(500).send(ex.message);
-  }
-});
-
 route.post("/favMovies", async (req, res) => {
   const token = req.header("x-auth-token");
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
-  console.log(req.body);
   try {
     const id = jwt.verify(token, process.env.JWT_KEY)._id;
     const user = await User.findById(id);
@@ -92,10 +71,8 @@ route.post("/favMovies", async (req, res) => {
     } else {
       user.favMovies.push(req.body.movieId);
     }
-    console.log(user);
     await user.save();
     res.send(user);
-    console.log(user);
   } catch (ex) {
     res.status(500).send(ex.message);
   }
