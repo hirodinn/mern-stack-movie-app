@@ -1,17 +1,22 @@
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "./Header";
 
 export default function Home({ user, token, setUser }) {
+  const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     const loadMovies = async () => {
       try {
-        let popular = await axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${
-            import.meta.env.VITE_TMDB_KEY
-          }`
-        );
+        const searchString = searchParams.get("query")
+          ? `https://api.themoviedb.org/3/search/movie?api_key=YOUR_TMDB_KEY&query=${searchParams.get(
+              "query"
+            )}&page=1`
+          : `https://api.themoviedb.org/3/movie/popular?api_key=${
+              import.meta.env.VITE_TMDB_KEY
+            }`;
+        let popular = await axios.get(searchString);
         setMovies(popular.data.results);
         const u = await axios.get("http://localhost:3000/api/users/me", {
           headers: {
