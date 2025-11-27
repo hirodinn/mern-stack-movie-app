@@ -55,12 +55,21 @@ export default function Login({ setToken }) {
           }}
           value={password}
         />
-        <button
-          type="submit"
-          className="bg-my-black w-fit ml-auto py-1 px-6 rounded-xl cursor-pointer"
-        >
-          Login
-        </button>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            className="bg-my-black w-fit py-1 px-6 rounded-xl cursor-pointer mr-2.5"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </button>
+          <button
+            type="submit"
+            className="bg-my-black w-fit py-1 px-6 rounded-xl cursor-pointer"
+          >
+            Login
+          </button>
+        </div>
       </form>
     </div>
   );
