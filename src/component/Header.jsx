@@ -10,9 +10,9 @@ export default function Header() {
     setInputValue("");
   }
   return (
-    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-black">
+    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-blac">
       <form
-        className="w-[90%] max-w-4xl mx-auto h-[60%] flex text-[19px]"
+        className="flex-1 max-w-4xl mx-auto h-[60%] flex text-[19px]  px-7"
         onSubmit={search}
       >
         <input
@@ -28,6 +28,15 @@ export default function Header() {
           search
         </button>
       </form>
+      <button
+        className="bg-red-600 rounded cursor-pointer py-1 px-6 mr-2"
+        onClick={() => {
+          localStorage.removeItem("token");
+          navigate("/");
+        }}
+      >
+        Log out
+      </button>
     </header>
   );
 }
