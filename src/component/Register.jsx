@@ -55,7 +55,7 @@ export default function Register({ setToken }) {
       setToken(user.data);
       localStorage.setItem("token", JSON.stringify(user.data));
       setTimeout(() => {
-        navigate("/home");
+        navigate("/");
       }, 100);
     }
   };

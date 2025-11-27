@@ -27,7 +27,7 @@ function App() {
     <Routes>
       {token.length && (
         <Route
-          path="/home"
+          index
           element={<Home user={user} token={token} setUser={setUser} />}
         />
       )}

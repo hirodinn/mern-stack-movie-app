@@ -19,7 +19,7 @@ export default function Login({ setToken }) {
 
       localStorage.setItem("token", JSON.stringify(user.data));
       setTimeout(() => {
-        navigate("/home");
+        navigate("/");
       }, 100);
     }
   }
