@@ -8,7 +8,7 @@ import Profile from "./component/Profile";
 
 function App() {
   const [token, setToken] = useState(
-    JSON.parse(localStorage.getItem("token")) || ""
+    JSON.parse(localStorage.getItem("token")) || null
   );
   const [user, setUser] = useState(null);
 
@@ -19,21 +19,34 @@ function App() {
           "x-auth-token": token,
         },
       });
-      setUser(u.data);
+      if (token) setUser(u.data);
     };
     loadUser();
   }, [token]);
   return (
     <Routes>
-      {token.length && (
+      {token ? (
         <Route
           index
-          element={<Home user={user} token={token} setUser={setUser} />}
+          element={
+            <Home
+              user={user}
+              token={token}
+              setUser={setUser}
+              setToken={setToken}
+            />
+          }
         />
+      ) : (
+        <>
+          <Route
+            index
+            element={<Login setToken={setToken} setUser={setUser} />}
+          />
+          <Route path="/register" element={<Register setToken={setToken} />} />
+        </>
       )}
       {user && <Route path="/profile" element={<Profile user={user} />} />}
-      <Route index element={<Login setToken={setToken} setUser={setUser} />} />
-      <Route path="/register" element={<Register setToken={setToken} />} />
     </Routes>
   );
 }

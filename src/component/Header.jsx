@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export default function Header() {
+export default function Header({ setToken }) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   function search(e) {
@@ -10,7 +10,7 @@ export default function Header() {
     setInputValue("");
   }
   return (
-    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-blac">
+    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-black">
       <form
         className="flex-1 max-w-4xl mx-auto h-[60%] flex text-[19px]  px-7"
         onSubmit={search}
@@ -32,7 +32,10 @@ export default function Header() {
         className="bg-red-600 rounded cursor-pointer py-1 px-6 mr-2"
         onClick={() => {
           localStorage.removeItem("token");
-          navigate("/");
+          setToken(null);
+          setTimeout(() => {
+            navigate("/");
+          }, 100);
         }}
       >
         Log out
