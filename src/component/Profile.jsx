@@ -16,7 +16,7 @@ export default function Profile({ user }) {
     if (user) loadFav();
   }, [user]);
   return (
-    <div className="bg-my-black w-full box-border text-white flex flex-col items-center justify-center">
+    <div className="bg-my-black min-h-screen w-full box-border text-white flex flex-col items-center justify-center py-10">
       <h1 className="text-4xl">Name: {user.name}</h1>
       <h1 className="text-4xl my-5">Email: {user.email}</h1>
       <h1 className="text-4xl mb-5">Favorite Movies</h1>
@@ -24,7 +24,7 @@ export default function Profile({ user }) {
       <div className="flex flex-wrap gap-3 space-y-3 w-[90%] max-w-6xl mx-auto">
         {favMovies.map((fav, i) => {
           return (
-            <div key={i} className="w-65 h-155 border rounded-2xl">
+            <div key={i} className="w-65 h-120 border rounded-2xl">
               <img src={`https://image.tmdb.org/t/p/w500${fav.poster_path}`} />
               <h4 className="my-2 font-bold text-2xl">
                 {fav.title.length < 30
