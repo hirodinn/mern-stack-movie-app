@@ -25,10 +25,10 @@ export default function Login({ setToken }) {
   }
 
   return (
-    <div className="box-border w-full h-screen overflow-hidden bg-my-black flex items-center justify-center text-white flex-col gap-5">
-      <h1 className="text-center font-bold text-5xl">Login</h1>
+    <div className="box-border w-full h-screen overflow-hidden bg-my-black flex items-center justify-center  flex-col gap-5">
+      <h1 className="text-center font-bold text-5xl text-pink-100">Login</h1>
       <form
-        className="bg-my-black-hover flex flex-col p-10 text-[20px] w-[90%] max-w-3xl gap-3 rounded-3xl"
+        className="bg-pink-100 flex flex-col p-10 pb-5 text-[20px] w-[90%] max-w-2xl gap-3 rounded-3xl"
         onSubmit={validateUser}
       >
         <label htmlFor="email">Email: </label>
@@ -36,7 +36,7 @@ export default function Login({ setToken }) {
           type="email"
           id="email"
           placeholder="Enter your Email..."
-          className="border-b-2 border-cyan-600 focus:outline-none"
+          className="border-b-2 border-cyan-600 focus:outline-none "
           required
           onChange={(e) => {
             setEmail(e.target.value);
@@ -55,17 +55,17 @@ export default function Login({ setToken }) {
           }}
           value={password}
         />
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-3">
           <button
             type="button"
-            className="bg-my-black w-fit py-1 px-6 rounded-xl cursor-pointer mr-2.5"
+            className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer mr-2.5"
             onClick={() => navigate("/register")}
           >
             Register
           </button>
           <button
             type="submit"
-            className="bg-my-black w-fit py-1 px-6 rounded-xl cursor-pointer"
+            className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer"
           >
             Login
           </button>
