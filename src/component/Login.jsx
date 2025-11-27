@@ -22,7 +22,6 @@ export default function Login({ setToken }) {
         navigate("/home");
       }, 100);
     }
-    console.log(user);
   }
 
   return (

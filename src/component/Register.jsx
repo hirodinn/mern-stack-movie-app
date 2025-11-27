@@ -46,13 +46,11 @@ export default function Register({ setToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-    console.log("form sent");
     const user = await axios.post("http://localhost:3000/api/users", {
       email: form.email,
       password: form.password,
       name: form.name,
     });
-    console.log(user);
     if (user.data) {
       setToken(user.data);
       localStorage.setItem("token", JSON.stringify(user.data));
