@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import Home from "./component/Home";
 import Login from "./component/Login";
+import Register from "./component/Register";
 
 function App() {
   const [token, setToken] = useState(
@@ -16,10 +17,8 @@ function App() {
           element={<Home user={user} token={token} setUser={setUser} />}
         />
       )}
-      <Route
-        path="/login"
-        element={<Login setToken={setToken} setUser={setUser} />}
-      />
+      <Route index element={<Login setToken={setToken} setUser={setUser} />} />
+      <Route path="/register" element={<Register setToken={setToken} />} />
     </Routes>
   );
 }

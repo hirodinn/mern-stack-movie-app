@@ -40,7 +40,7 @@ export function validateNewUser(obj) {
     name: Joi.string().required().min(5),
     password: Joi.string().required().min(8),
     email: Joi.string().email().required(),
-    favMovies: Joi.array().required(),
+    favMovies: Joi.array(),
   });
   return schema.validate(obj || {});
 }
