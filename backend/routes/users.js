@@ -23,7 +23,7 @@ route.post("/", async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save();
-    res.send(user);
+    res.send(user.getAuthToken());
   } catch (ex) {
     res.status(500).send(ex.message);
   }
