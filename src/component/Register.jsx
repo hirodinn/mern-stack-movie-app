@@ -65,7 +65,6 @@ export default function Register({ setToken }) {
         <h2 className="text-2xl font-semibold mb-4">Register</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name */}
           <div>
             <label className="block font-medium">Name</label>
             <input
@@ -80,7 +79,6 @@ export default function Register({ setToken }) {
             )}
           </div>
 
-          {/* Email */}
           <div>
             <label className="block font-medium">Email</label>
             <input
@@ -95,7 +93,6 @@ export default function Register({ setToken }) {
             )}
           </div>
 
-          {/* Password */}
           <div>
             <label className="block font-medium">Password</label>
             <input
@@ -109,8 +106,6 @@ export default function Register({ setToken }) {
               <p className="text-red-500 text-sm">{errors.password}</p>
             )}
           </div>
-
-          {/* Confirm Password */}
           <div>
             <label className="block font-medium">Confirm Password</label>
             <input
@@ -124,13 +119,21 @@ export default function Register({ setToken }) {
               <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
             )}
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg"
-          >
-            Register
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-1 px-6"
+            >
+              Register
+            </button>
+            <button
+              type="button"
+              className="bg-blue-600 w-fit text-white py-1 px-6 rounded-xl cursor-pointer ml-2.5"
+              onClick={() => navigate("/")}
+            >
+              Login
+            </button>
+          </div>
         </form>
       </div>
     </div>
