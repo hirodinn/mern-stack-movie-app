@@ -5,8 +5,8 @@ export default function Header({ setToken }) {
   const [inputValue, setInputValue] = useState("");
   function search(e) {
     e.preventDefault();
-    if (inputValue.length) navigate(`/home?query=${inputValue}`);
-    else navigate("/home");
+    if (inputValue.length) navigate(`/?query=${inputValue}`);
+    else navigate("/");
     setInputValue("");
   }
   return (
@@ -28,18 +28,32 @@ export default function Header({ setToken }) {
           search
         </button>
       </form>
-      <button
-        className="bg-red-600 rounded cursor-pointer py-1 px-6 mr-2"
-        onClick={() => {
-          localStorage.removeItem("token");
-          setToken(null);
-          setTimeout(() => {
-            navigate("/");
-          }, 100);
-        }}
-      >
-        Log out
-      </button>
+      <div className="flex flex-col h-[95%] justify-around">
+        <button
+          className="bg-red-600 rounded cursor-pointer py-1 px-6 mr-2"
+          onClick={() => {
+            localStorage.removeItem("token");
+            setToken(null);
+            setTimeout(() => {
+              navigate("/");
+            }, 100);
+          }}
+        >
+          Log out
+        </button>
+        <button
+          className="bg-green-600 rounded cursor-pointer py-1 px-6 mr-2"
+          onClick={() => {
+            localStorage.removeItem("token");
+            setToken(null);
+            setTimeout(() => {
+              navigate("/profile");
+            }, 100);
+          }}
+        >
+          Profile
+        </button>
+      </div>
     </header>
   );
 }
