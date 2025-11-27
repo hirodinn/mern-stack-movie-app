@@ -20,18 +20,11 @@ export default function Home({ user, token, setUser }) {
             }`;
         let popular = await axios.get(searchString);
         setMovies(popular.data.results);
-        const u = await axios.get("http://localhost:3000/api/users/me", {
-          headers: {
-            "x-auth-token": token,
-          },
-        });
-        setUser(u.data);
       } catch (ex) {
         console.log(ex);
       }
     };
     loadMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   function returnRatingColor(rating) {
