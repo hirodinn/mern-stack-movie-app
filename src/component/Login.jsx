@@ -28,7 +28,7 @@ export default function Login({ setToken }) {
     <div className="box-border w-full h-screen overflow-hidden bg-my-black flex items-center justify-center  flex-col gap-5">
       <h1 className="text-center font-bold text-5xl text-pink-100">Login</h1>
       <form
-        className="bg-pink-100 flex flex-col p-10 pb-5 text-[20px] w-[90%] max-w-2xl gap-3 rounded-3xl"
+        className="bg-pink-100 flex flex-col p-10 pb-5 text-[20px] w-[90%] max-w-2xl gap-3 rounded-2xl"
         onSubmit={validateUser}
       >
         <label htmlFor="email">Email: </label>
