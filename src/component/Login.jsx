@@ -25,10 +25,12 @@ export default function Login({ setToken }) {
       }
     } catch (err) {
       if (err.response) {
-        console.log("Error:", err.response.data.message);
         setError(err.response.data.message);
+        setTimeout(() => {
+          setError(null);
+        }, 1000);
       } else {
-        console.log("Network error");
+        setError("Network error");
       }
     }
   }
@@ -37,7 +39,7 @@ export default function Login({ setToken }) {
     <div className="box-border w-full h-screen overflow-hidden bg-my-black flex items-center justify-center  flex-col gap-5">
       <h1 className="text-center font-bold text-5xl text-pink-100">Login</h1>
       <form
-        className="bg-pink-100 flex flex-col p-10 pb-5 text-[20px] w-[90%] max-w-2xl gap-3 rounded-2xl"
+        className="bg-pink-100 flex flex-col p-10 pb-5 text-xl w-[90%] max-w-2xl gap-3 rounded-2xl"
         onSubmit={validateUser}
       >
         <label htmlFor="email">Email: </label>
@@ -64,8 +66,8 @@ export default function Login({ setToken }) {
           }}
           value={password}
         />
-        <div className="flex mt-3">
-          {error && <p className="text-red-600">{error}</p>}
+        <div className="flex mt-3 items-center">
+          {error && <p className="text-red-600 text-[15px]">{error}</p>}
           <div className="ml-auto">
             <button
               type="button"
