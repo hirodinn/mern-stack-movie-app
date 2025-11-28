@@ -51,7 +51,7 @@ export default function Home({ user, setUser }) {
 
   return (
     <main className="bg-my-black text-white pt-30 h-fit">
-      <Header />
+      <Header setUser={setUser} />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {user &&
           movies.map((movie, i) => {

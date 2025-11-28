@@ -1,6 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export default function Header({ setToken }) {
+export default function Header({ setUser }) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   function search(e) {
@@ -9,6 +10,22 @@ export default function Header({ setToken }) {
     else navigate("/");
     setInputValue("");
   }
+
+  async function logout() {
+    try {
+      await axios.post(
+        "http://localhost:3000/api/users/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      setUser(null);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   return (
     <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-black">
       <form
@@ -31,13 +48,7 @@ export default function Header({ setToken }) {
       <div className="flex flex-col h-[95%] justify-around">
         <button
           className="bg-red-600 rounded cursor-pointer py-1 px-6 mr-2"
-          onClick={() => {
-            localStorage.removeItem("token");
-            setToken(null);
-            setTimeout(() => {
-              navigate("/");
-            }, 100);
-          }}
+          onClick={logout}
         >
           Log out
         </button>
