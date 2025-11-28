@@ -44,8 +44,6 @@ export default function Header({ setToken }) {
         <button
           className="bg-green-600 rounded cursor-pointer py-1 px-6 mr-2"
           onClick={() => {
-            localStorage.removeItem("token");
-            setToken(null);
             setTimeout(() => {
               navigate("/profile");
             }, 100);
