@@ -7,50 +7,32 @@ import Register from "./component/Register";
 import Profile from "./component/Profile";
 
 function App() {
-  const [token, setToken] = useState(
-    JSON.parse(localStorage.getItem("token")) || null
-  );
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const u = await axios.get("http://localhost:3000/api/users/me", {
-          headers: {
-            "x-auth-token": token,
-          },
-        });
+        const u = await axios.get("http://localhost:3000/api/users/me");
         setUser(u.data);
       } catch (err) {
         console.log(err);
       }
     };
-    if (token) loadUser();
-  }, [token]);
+    loadUser();
+  }, []);
   return (
     <Routes>
-      {token ? (
-        <Route
-          index
-          element={
-            <Home
-              user={user}
-              token={token}
-              setUser={setUser}
-              setToken={setToken}
-            />
-          }
-        />
+      {user ? (
+        <>
+          <Route index element={<Home user={user} setUser={setUser} />} />
+          <Route path="/profile" element={<Profile user={user} />} />
+        </>
       ) : (
         <>
-          <Route
-            index
-            element={<Login setToken={setToken} setUser={setUser} />}
-          />
-          <Route path="/register" element={<Register setToken={setToken} />} />
+          <Route index element={<Login setUser={setUser} />} />
+          <Route path="/register" element={<Register setUser={setUser} />} />
         </>
       )}
-      {user && <Route path="/profile" element={<Profile user={user} />} />}
     </Routes>
   );
 }

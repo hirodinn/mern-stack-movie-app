@@ -67,13 +67,18 @@ route.post("/login", async (req, res) => {
         .json({ success: false, message: "email or password error" });
     const isValid = await bcrypt.compare(req.body.password, user.password);
     const token = user.getAuthToken();
-    if (isValid)
+    if (isValid) {
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Lax",
+        maxAge: 24 * 60 * 60 * 1000,
+      });
       res.json({
         success: true,
         message: `Login successful, Welcome ${user.name}`,
-        token: token,
       });
-    else
+    } else
       res
         .status(404)
         .json({ success: false, message: "email or password error" });

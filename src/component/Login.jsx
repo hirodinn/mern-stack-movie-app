@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Login({ setToken }) {
+export default function Login({ setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -12,16 +12,20 @@ export default function Login({ setToken }) {
   async function validateUser(e) {
     e.preventDefault();
     try {
-      const user = await axios.post("http://localhost:3000/api/users/login", {
-        email,
-        password,
-      });
+      const user = await axios.post(
+        "http://localhost:3000/api/users/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       if (user.data) {
-        setTimeout(() => {
-          setToken(user.data.token);
-        }, 400);
-        localStorage.setItem("token", JSON.stringify(user.data.token));
         setSuccess(user.data.message);
+        const u = await axios.get("http://localhost:3000/api/users/me", {
+          withCredentials: true,
+        });
+        setUser(u.data);
       }
     } catch (err) {
       if (err.response) {
