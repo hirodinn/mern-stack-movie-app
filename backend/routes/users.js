@@ -21,11 +21,19 @@ route.post("/", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
+    const token = user.getAuthToken();
+
+    res.cookie("token", token, {
+      httpOnly: true, // JS cannot access it
+      secure: false, // set true in production with HTTPS
+      sameSite: "Lax",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
     await user.save();
     res.json({
       success: true,
       message: `Register successful, Welcome ${user.name}`,
-      token: user.getAuthToken(),
     });
   } catch (ex) {
     res.status(500).json({ success: false, message: ex.message });
@@ -33,7 +41,7 @@ route.post("/", async (req, res) => {
 });
 
 route.get("/me", async (req, res) => {
-  const token = req.header("x-auth-token");
+  const token = req.cookies.token;
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
 
   try {
@@ -75,7 +83,7 @@ route.post("/login", async (req, res) => {
 });
 
 route.post("/favMovies", async (req, res) => {
-  const token = req.header("x-auth-token");
+  const token = req.cookies.token;
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
   try {
     const id = jwt.verify(token, process.env.JWT_KEY)._id;

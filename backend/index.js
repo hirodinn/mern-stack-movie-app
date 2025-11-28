@@ -5,6 +5,7 @@ import Joi from "joi";
 import joi from "joi-objectid";
 import dotenv from "dotenv";
 import users from "./routes/users.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/users", users);
 
 app.listen(3000, () => console.log("Listening to port 3000..."));
