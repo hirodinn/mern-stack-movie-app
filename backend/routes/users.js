@@ -42,16 +42,26 @@ route.get("/me", async (req, res) => {
 
 route.post("/login", async (req, res) => {
   const { error } = validateOldUser(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error)
+    return res
+      .status(400)
+      .json({ success: false, message: error.details[0].message });
   try {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(404).send("email or password error");
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "email or password error" });
     const isValid = await bcrypt.compare(req.body.password, user.password);
     const token = user.getAuthToken();
-    if (isValid) res.send(token);
-    else res.status(404).send("email or password error");
-  } catch (ex) {
-    res.status(500).send(ex.message);
+    if (isValid)
+      res.json({ success: true, message: "Login successful", token: token });
+    else
+      res
+        .status(404)
+        .json({ success: false, message: "email or password error" });
+  } catch {
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
