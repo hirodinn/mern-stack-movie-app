@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "./Header";
 
-export default function Home({ user, token, setUser, setToken }) {
+export default function Home({ user, setUser }) {
   const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
   useEffect(() => {
@@ -41,11 +41,7 @@ export default function Home({ user, token, setUser, setToken }) {
         {
           movieId: id,
         },
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
+        { withCredentials: true }
       );
       setUser(user.data);
     } catch (ex) {
@@ -55,7 +51,7 @@ export default function Home({ user, token, setUser, setToken }) {
 
   return (
     <main className="bg-my-black text-white pt-30 h-fit">
-      <Header setToken={setToken} />
+      <Header />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {user &&
           movies.map((movie, i) => {
