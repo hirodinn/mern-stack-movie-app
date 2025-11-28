@@ -14,14 +14,18 @@ function App() {
 
   useEffect(() => {
     const loadUser = async () => {
-      const u = await axios.get("http://localhost:3000/api/users/me", {
-        headers: {
-          "x-auth-token": token,
-        },
-      });
-      if (token) setUser(u.data);
+      try {
+        const u = await axios.get("http://localhost:3000/api/users/me", {
+          headers: {
+            "x-auth-token": token,
+          },
+        });
+        setUser(u.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
-    loadUser();
+    if (token) loadUser();
   }, [token]);
   return (
     <Routes>
