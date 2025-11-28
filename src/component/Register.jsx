@@ -55,8 +55,7 @@ export default function Register({ setToken }) {
         name: form.name,
       });
       if (user.data) {
-        //setToken(user.data.token);
-        localStorage.setItem("token", JSON.stringify(user.data));
+        localStorage.setItem("token", JSON.stringify(user.data.token));
         setSuccess(user.data.message);
         setTimeout(() => {
           setToken(user.data.token);

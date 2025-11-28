@@ -20,7 +20,7 @@ export default function Login({ setToken }) {
         setTimeout(() => {
           setToken(user.data.token);
         }, 400);
-        localStorage.setItem("token", JSON.stringify(user.data));
+        localStorage.setItem("token", JSON.stringify(user.data.token));
         setSuccess(user.data.message);
       }
     } catch (err) {
