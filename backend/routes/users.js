@@ -109,4 +109,15 @@ route.post("/favMovies", async (req, res) => {
   }
 });
 
+route.post("/logout", (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "Lax",
+    expires: new Date(0),
+  });
+
+  res.json({ success: true, message: "Logged out successfully" });
+});
+
 export default route;
