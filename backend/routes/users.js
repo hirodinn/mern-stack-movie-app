@@ -55,7 +55,11 @@ route.post("/login", async (req, res) => {
     const isValid = await bcrypt.compare(req.body.password, user.password);
     const token = user.getAuthToken();
     if (isValid)
-      res.json({ success: true, message: "Login successful", token: token });
+      res.json({
+        success: true,
+        message: `Login successful, Welcome ${user.name}`,
+        token: token,
+      });
     else
       res
         .status(404)

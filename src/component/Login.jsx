@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login({ setToken }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,12 +17,11 @@ export default function Login({ setToken }) {
         password,
       });
       if (user.data) {
-        setToken(user.data);
-
-        localStorage.setItem("token", JSON.stringify(user.data));
         setTimeout(() => {
-          navigate("/");
-        }, 100);
+          setToken(user.data.token);
+        }, 400);
+        localStorage.setItem("token", JSON.stringify(user.data));
+        setSuccess(user.data.message);
       }
     } catch (err) {
       if (err.response) {
@@ -68,6 +68,8 @@ export default function Login({ setToken }) {
         />
         <div className="flex mt-3 items-center">
           {error && <p className="text-red-600 text-[15px]">{error}</p>}
+          {success && <p className="text-green-600 text-[15px]">{success}</p>}
+
           <div className="ml-auto">
             <button
               type="button"
