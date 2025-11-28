@@ -12,7 +12,9 @@ function App() {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const u = await axios.get("http://localhost:3000/api/users/me");
+        const u = await axios.get("http://localhost:3000/api/users/me", {
+          withCredentials: true,
+        });
         setUser(u.data);
       } catch (err) {
         console.log(err);
