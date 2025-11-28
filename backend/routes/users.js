@@ -9,7 +9,8 @@ const route = express.Router();
 
 route.post("/", async (req, res) => {
   const { error } = validateNewUser(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error)
+    res.status(400).json({ success: false, message: error.details[0].message });
   try {
     const user = new User({
       name: req.body.name,
@@ -21,9 +22,13 @@ route.post("/", async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save();
-    res.send(user.getAuthToken());
+    res.json({
+      success: true,
+      message: `Register successful, Welcome ${user.name}`,
+      token: user.getAuthToken(),
+    });
   } catch (ex) {
-    res.status(500).send(ex.message);
+    res.status(500).json({ success: false, message: ex.message });
   }
 });
 

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register({ setToken }) {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -46,21 +48,34 @@ export default function Register({ setToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-    const user = await axios.post("http://localhost:3000/api/users", {
-      email: form.email,
-      password: form.password,
-      name: form.name,
-    });
-    if (user.data) {
-      setToken(user.data);
-      localStorage.setItem("token", JSON.stringify(user.data));
-      setTimeout(() => {
-        navigate("/");
-      }, 100);
+    try {
+      const user = await axios.post("http://localhost:3000/api/users", {
+        email: form.email,
+        password: form.password,
+        name: form.name,
+      });
+      if (user.data) {
+        //setToken(user.data.token);
+        localStorage.setItem("token", JSON.stringify(user.data));
+        setSuccess(user.data.message);
+        setTimeout(() => {
+          setToken(user.data.token);
+          navigate("/");
+        }, 400);
+      }
+    } catch (err) {
+      if (err.response) {
+        setError("This Email already Exists ....");
+        setTimeout(() => {
+          setError(null);
+        }, 1000);
+      } else {
+        setError("Network error");
+      }
     }
   };
   return (
-    <div className="bg-my-black box-border w-full h-screen flex justify-center items-center flex-col">
+    <div className="bg-my-black box-border w-full min-h-screen flex justify-center items-center flex-col">
       <h2 className=" font-semibold mb-4 text-white text-5xl text-center">
         Register
       </h2>
@@ -121,20 +136,24 @@ export default function Register({ setToken }) {
             <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
           )}
         </div>
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="bg-blue-200 rounded-lg py-1 px-6 cursor-pointer"
-          >
-            Register
-          </button>
-          <button
-            type="button"
-            className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer ml-2.5"
-            onClick={() => navigate("/")}
-          >
-            Login
-          </button>
+        <div className="flex mt-3 items-center">
+          {error && <p className="text-red-600 text-[15px]">{error}</p>}
+          {success && <p className="text-green-600 text-[15px]">{success}</p>}
+          <div className="ml-auto">
+            <button
+              type="submit"
+              className="bg-blue-200 rounded-lg py-1 px-6 cursor-pointer"
+            >
+              Register
+            </button>
+            <button
+              type="button"
+              className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer ml-2.5"
+              onClick={() => navigate("/")}
+            >
+              Login
+            </button>
+          </div>
         </div>
       </form>
     </div>
