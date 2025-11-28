@@ -4,23 +4,32 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login({ setToken }) {
   const navigate = useNavigate();
-
+  const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function validateUser(e) {
     e.preventDefault();
-    const user = await axios.post("http://localhost:3000/api/users/login", {
-      email,
-      password,
-    });
-    if (user.data) {
-      setToken(user.data);
+    try {
+      const user = await axios.post("http://localhost:3000/api/users/login", {
+        email,
+        password,
+      });
+      if (user.data) {
+        setToken(user.data);
 
-      localStorage.setItem("token", JSON.stringify(user.data));
-      setTimeout(() => {
-        navigate("/");
-      }, 100);
+        localStorage.setItem("token", JSON.stringify(user.data));
+        setTimeout(() => {
+          navigate("/");
+        }, 100);
+      }
+    } catch (err) {
+      if (err.response) {
+        console.log("Error:", err.response.data.message);
+        setError(err.response.data.message);
+      } else {
+        console.log("Network error");
+      }
     }
   }
 
@@ -55,20 +64,23 @@ export default function Login({ setToken }) {
           }}
           value={password}
         />
-        <div className="flex justify-end mt-3">
-          <button
-            type="button"
-            className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer mr-2.5"
-            onClick={() => navigate("/register")}
-          >
-            Register
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer"
-          >
-            Login
-          </button>
+        <div className="flex mt-3">
+          {error && <p className="text-red-600">{error}</p>}
+          <div className="ml-auto">
+            <button
+              type="button"
+              className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer mr-2.5"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer"
+            >
+              Login
+            </button>
+          </div>
         </div>
       </form>
     </div>
