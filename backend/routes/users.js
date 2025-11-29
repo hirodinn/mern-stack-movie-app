@@ -42,8 +42,9 @@ route.post("/", async (req, res) => {
 
 route.get("/me", async (req, res) => {
   const token = req.cookies.token;
+  console.log("token: ", token);
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
-
+  console.log(req.cookies.token);
   try {
     const decoded = jwt.verify(token, process.env.JWT_KEY);
     const user = await User.findById(decoded._id).select("-password");

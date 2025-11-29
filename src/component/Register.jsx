@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Register({ setToken }) {
+export default function Register({ setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -40,18 +40,25 @@ export default function Register({ setToken }) {
     e.preventDefault();
     if (!validate()) return;
     try {
-      const user = await axios.post("http://localhost:3000/api/users", {
-        email: form.email,
-        password: form.password,
-        name: form.name,
-      });
+      const user = await axios.post(
+        "http://localhost:3000/api/users",
+        {
+          email: form.email,
+          password: form.password,
+          name: form.name,
+        },
+        { withCredentials: true }
+      );
       if (user.data) {
-        localStorage.setItem("token", JSON.stringify(user.data.token));
         setSuccess(user.data.message);
+        const u = await axios.get("http://localhost:3000/api/users/me", {
+          withCredentials: true,
+        });
+        console.log(u);
         setTimeout(() => {
-          setToken(user.data.token);
+          setUser(u.data);
           navigate("/");
-        }, 400);
+        }, 300);
       }
     } catch (err) {
       if (err.response) {
