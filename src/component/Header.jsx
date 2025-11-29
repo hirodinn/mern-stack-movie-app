@@ -21,6 +21,7 @@ export default function Header({ setUser }) {
         }
       );
       setUser(null);
+      navigate("/");
     } catch (err) {
       console.log(err.message);
     }
