@@ -5,6 +5,7 @@ import Home from "./component/Home";
 import Login from "./component/Login";
 import Register from "./component/Register";
 import Profile from "./component/Profile";
+import NotFound404 from "./component/NotFound404";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -35,6 +36,7 @@ function App() {
           <Route path="/register" element={<Register setUser={setUser} />} />
         </>
       )}
+      <Route path="*" element={<NotFound404 />} />
     </Routes>
   );
 }
