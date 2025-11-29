@@ -25,21 +25,12 @@ export default function Register({ setToken }) {
   const validate = () => {
     let newErrors = {};
 
-    if (!form.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!form.email.includes("@")) {
-      newErrors.email = "Valid email is required";
-    }
-
-    if (form.password.length < 8) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
-
-    if (form.password !== form.confirmPassword) {
+    if (!form.name.trim()) newErrors.name = "Name is required";
+    if (!form.email.includes("@")) newErrors.email = "Valid email is required";
+    if (form.password.length < 8)
+      newErrors.password = "Password must be at least 8 characters";
+    if (form.password !== form.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -65,96 +56,100 @@ export default function Register({ setToken }) {
     } catch (err) {
       if (err.response) {
         setError("This Email already Exists ....");
-        setTimeout(() => {
-          setError(null);
-        }, 1000);
+        setTimeout(() => setError(null), 1000);
       } else {
         setError("Network error");
       }
     }
   };
+
   return (
-    <div className="bg-my-black box-border w-full min-h-screen flex justify-center items-center flex-col">
-      <h2 className=" font-semibold mb-4 text-white text-5xl text-center">
-        Register
-      </h2>
+    <div className="w-full min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-red-900 flex items-center justify-center p-5">
+      <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md p-10 flex flex-col gap-6 border border-white/20">
+        <h2 className="text-center font-extrabold text-5xl text-white drop-shadow-lg">
+          Register
+        </h2>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div className="flex flex-col">
+            <label className="text-white font-semibold mb-1">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
+          </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="text-[20px] bg-pink-100 p-8 w-[90%] max-w-2xl rounded-2xl flex flex-col gap-3"
-      >
-        <div>
-          <label className="block">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            className="w-full border-b-2 border-cyan-600 rounded focus:outline-none"
-          />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
-        </div>
+          <div className="flex flex-col">
+            <label className="text-white font-semibold mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
 
-        <div>
-          <label className="block">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border-b-2 border-cyan-600 rounded focus:outline-none"
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email}</p>
-          )}
-        </div>
+          <div className="flex flex-col">
+            <label className="text-white font-semibold mb-1">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
+          </div>
 
-        <div>
-          <label className="block">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full border-b-2 border-cyan-600 rounded focus:outline-none"
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password}</p>
-          )}
-        </div>
-        <div>
-          <label className="block">Confirm Password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            className="w-full border-b-2 border-cyan-600 rounded focus:outline-none"
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
-          )}
-        </div>
-        <div className="flex mt-3 items-center">
-          {error && <p className="text-red-600 text-[15px]">{error}</p>}
-          {success && <p className="text-green-600 text-[15px]">{success}</p>}
-          <div className="ml-auto">
+          <div className="flex flex-col">
+            <label className="text-white font-semibold mb-1">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col mt-3 gap-3 text-center text-[17px] font-medium">
+            {error && <p className="text-red-500">{error}</p>}
+            {success && <p className="text-green-400">{success}</p>}
+          </div>
+          <div className="flex mt-4 justify-between">
             <button
               type="submit"
-              className="bg-blue-200 rounded-lg py-1 px-6 cursor-pointer"
+              className="bg-purple-500 hover:bg-purple-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Register
             </button>
             <button
               type="button"
-              className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer ml-2.5"
               onClick={() => navigate("/")}
+              className="bg-pink-500 hover:bg-pink-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Login
             </button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

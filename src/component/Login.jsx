@@ -25,14 +25,16 @@ export default function Login({ setUser }) {
         const u = await axios.get("http://localhost:3000/api/users/me", {
           withCredentials: true,
         });
-        setUser(u.data);
+        setTimeout(() => {
+          setUser(u.data);
+        }, 300);
       }
     } catch (err) {
       if (err.response) {
         setError(err.response.data.message);
         setTimeout(() => {
           setError(null);
-        }, 1000);
+        }, 1500);
       } else {
         setError("Network error");
       }
@@ -40,57 +42,61 @@ export default function Login({ setUser }) {
   }
 
   return (
-    <div className="box-border w-full h-screen overflow-hidden bg-my-black flex items-center justify-center  flex-col gap-5">
-      <h1 className="text-center font-bold text-5xl text-pink-100">Login</h1>
-      <form
-        className="bg-pink-100 flex flex-col p-10 pb-5 text-xl w-[90%] max-w-2xl gap-3 rounded-2xl"
-        onSubmit={validateUser}
-      >
-        <label htmlFor="email">Email: </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your Email..."
-          className="border-b-2 border-cyan-600 focus:outline-none "
-          required
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          value={email}
-        />
-        <label htmlFor="password">Password: </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter your Password..."
-          className="border-b-2 border-cyan-600 focus:outline-none"
-          required
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          value={password}
-        />
-        <div className="flex mt-3 items-center">
-          {error && <p className="text-red-600 text-[15px]">{error}</p>}
-          {success && <p className="text-green-600 text-[15px]">{success}</p>}
-
-          <div className="ml-auto">
+    <div className="w-full h-screen bg-linear-to-br from-purple-900 via-pink-900 to-red-900 flex items-center justify-center p-5">
+      <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md p-10 flex flex-col gap-6 border border-white/20">
+        <h1 className="text-center font-extrabold text-5xl text-white drop-shadow-lg">
+          Login
+        </h1>
+        <form className="flex flex-col gap-4" onSubmit={validateUser}>
+          <div className="flex flex-col">
+            <label htmlFor="email" className="text-white font-semibold mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email..."
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="password" className="text-white font-semibold mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password..."
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+          </div>
+          <div className="flex flex-col mt-3 gap-3 text-center text-[17px] font-medium">
+            {error && <p className="text-red-500">{error}</p>}
+            {success && <p className="text-green-400">{success}</p>}
+          </div>
+          <div className="flex mt-4 justify-between">
             <button
               type="button"
-              className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer mr-2.5"
               onClick={() => navigate("/register")}
+              className="bg-pink-500 hover:bg-pink-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Register
             </button>
             <button
               type="submit"
-              className="bg-blue-200 w-fit py-1 px-6 rounded-xl cursor-pointer"
+              className="bg-purple-500 hover:bg-purple-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Login
             </button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
