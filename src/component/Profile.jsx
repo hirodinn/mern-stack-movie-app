@@ -13,8 +13,9 @@ export default function Profile({ user }) {
       const data = await Promise.all(requests);
       setFavMovies(data.map((m) => m.data));
     };
-    if (user) loadFav();
-  }, [user]);
+    loadFav();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="bg-my-black min-h-screen w-full box-border text-white flex flex-col items-center justify-center py-10">
       <h1 className="text-4xl">Name: {user.name}</h1>
