@@ -72,6 +72,8 @@ export default function Register({ setUser }) {
 
   return (
     <div className="w-full min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-red-900 flex items-center justify-center p-5">
+      <title>Register</title>
+
       <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md p-10 flex flex-col gap-6 border border-white/20">
         <h2 className="text-center font-extrabold text-5xl text-white drop-shadow-lg">
           Register
