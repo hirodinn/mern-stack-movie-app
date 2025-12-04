@@ -8,6 +8,7 @@ const NotFound404 = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#0f172a] via-[#071025] to-[#001219] text-white overflow-hidden">
+      <title>Page Not Found</title>
       <svg
         className="pointer-events-none absolute -top-24 -left-24 opacity-20 w-96 h-96 transform rotate-12"
         viewBox="0 0 600 600"
