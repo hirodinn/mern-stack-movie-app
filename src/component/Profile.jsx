@@ -18,6 +18,7 @@ export default function Profile({ user }) {
   }, []);
   return (
     <div className="bg-my-black min-h-screen w-full box-border text-white flex flex-col items-center justify-center py-10">
+      <title>Profile</title>
       <h1 className="text-4xl">Name: {user.name}</h1>
       <h1 className="text-4xl my-5">Email: {user.email}</h1>
       <h1 className="text-4xl mb-5">Favorite Movies</h1>
