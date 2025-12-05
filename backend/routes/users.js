@@ -27,6 +27,7 @@ route.post("/", async (req, res) => {
       httpOnly: true, // JS cannot access it
       secure: false, // set true in production with HTTPS
       sameSite: "Lax",
+      path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
@@ -41,10 +42,13 @@ route.post("/", async (req, res) => {
 });
 
 route.get("/me", async (req, res) => {
+  res.set({
+    "Cache-Control": "no-store",
+    Pragma: "no-cache",
+    Expires: "0",
+  });
   const token = req.cookies.token;
-  console.log("token: ", token);
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
-  console.log(req.cookies.token);
   try {
     const decoded = jwt.verify(token, process.env.JWT_KEY);
     const user = await User.findById(decoded._id).select("-password");
@@ -73,6 +77,7 @@ route.post("/login", async (req, res) => {
         httpOnly: true,
         secure: false,
         sameSite: "Lax",
+        path: "/",
         maxAge: 24 * 60 * 60 * 1000,
       });
       res.json({
