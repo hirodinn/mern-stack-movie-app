@@ -21,7 +21,7 @@ export default function Header({ setUser }) {
         }
       );
       setUser(null);
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
       console.log(err.message);
     }
