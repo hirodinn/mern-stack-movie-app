@@ -25,8 +25,8 @@ route.post("/", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true, // JS cannot access it
-      secure: false, // set true in production with HTTPS
-      sameSite: "Lax",
+      secure: true, // set true in production with HTTPS
+      sameSite: "None",
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
@@ -75,8 +75,8 @@ route.post("/login", async (req, res) => {
     if (isValid) {
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "Lax",
+        secure: true,
+        sameSite: "None",
         path: "/",
         maxAge: 24 * 60 * 60 * 1000,
       });
@@ -118,8 +118,8 @@ route.post("/favMovies", async (req, res) => {
 route.post("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "Lax",
+    secure: true,
+    sameSite: "None",
     path: "/", // must match the path used when setting the cookie
   });
 
