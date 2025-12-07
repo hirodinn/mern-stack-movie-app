@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function Profile({ user }) {
-  const [favMovies, setFavMovies] = useState([]);
+  const [favMovies, setFavMovies] = useState(null);
   useEffect(() => {
     const loadFav = async () => {
       const requests = user.favMovies.map((id) =>
@@ -24,18 +24,24 @@ export default function Profile({ user }) {
       <h1 className="text-4xl mb-5">Favorite Movies</h1>
 
       <div className="flex flex-wrap gap-3 space-y-3 w-[90%] max-w-6xl mx-auto">
-        {favMovies.map((fav, i) => {
-          return (
-            <div key={i} className="w-65 h-120 border rounded-2xl">
-              <img src={`https://image.tmdb.org/t/p/w500${fav.poster_path}`} />
-              <h4 className="my-2 font-bold text-2xl">
-                {fav.title.length < 30
-                  ? fav.title
-                  : fav.title.slice(0, 30) + " ..."}
-              </h4>
-            </div>
-          );
-        })}
+        {favMovies ? (
+          favMovies.map((fav, i) => {
+            return (
+              <div key={i} className="w-65 h-120 border rounded-2xl">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${fav.poster_path}`}
+                />
+                <h4 className="my-2 font-bold text-2xl">
+                  {fav.title.length < 30
+                    ? fav.title
+                    : fav.title.slice(0, 30) + " ..."}
+                </h4>
+              </div>
+            );
+          })
+        ) : (
+          <div className="w-14 h-14 rounded-full animate-spin border-2 border-blue-900 border-b-blue-300 mx-auto"></div>
+        )}
       </div>
     </div>
   );
