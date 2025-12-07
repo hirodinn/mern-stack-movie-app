@@ -16,7 +16,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const allowedOrigins = [
-  "http://localhost:3000", // your local frontend
+  "http://localhost:5173", // your local frontend
   "https://mern-stack-movie-app.vercel.app", // deployed frontend
 ];
 

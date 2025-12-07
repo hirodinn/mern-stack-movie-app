@@ -80,7 +80,7 @@ export default function Home({ user, setUser }) {
                 key={i}
                 className="w-65 h-155 bg-my-black-hover flex flex-col p-4 rounded-2xl"
               >
-                <img src={movie.poster_url} />
+                <img src={movie.poster_url} className="h-[60%] object-cover" />
                 <div className="flex-1">
                   <h4 className="my-2 font-bold text-2xl">
                     {movie.title.length < 30
