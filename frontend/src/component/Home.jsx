@@ -18,16 +18,19 @@ export default function Home({ user, setUser }) {
           );
 
           const results = search.data.results;
-
-          result = await Promise.all(
-            results.map((movie) =>
-              axios
-                .get(
-                  `https://xmdbapi.com/api/v1/movies/${movie.id}?apiKey=${apiKey}`
-                )
-                .then((r) => r.data)
-            )
-          );
+          const promises = [];
+          for (let movie of results) {
+            if (movie.id[0] == "t") {
+              promises.push(
+                axios
+                  .get(
+                    `https://xmdbapi.com/api/v1/movies/${movie.id}?apiKey=${apiKey}`
+                  )
+                  .then((r) => r.data)
+              );
+            }
+          }
+          result = await Promise.all(promises);
         } else {
           const res = await axios.get(
             `https://xmdbapi.com/api/v1/trending?apiKey=${apiKey}`
