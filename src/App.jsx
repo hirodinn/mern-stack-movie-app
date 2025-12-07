@@ -28,7 +28,10 @@ function App() {
       {user ? (
         <>
           <Route index element={<Home user={user} setUser={setUser} />} />
-          <Route path="/profile" element={<Profile user={user} />} />
+          <Route
+            path="/profile"
+            element={<Profile user={user} setUser={setUser} />}
+          />
         </>
       ) : (
         <>

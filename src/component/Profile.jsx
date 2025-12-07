@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function Profile({ user }) {
+export default function Profile({ user, setUser }) {
   const [favMovies, setFavMovies] = useState(null);
   useEffect(() => {
     const loadFav = async () => {
@@ -14,8 +14,30 @@ export default function Profile({ user }) {
       setFavMovies(data.map((m) => m.data));
     };
     loadFav();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
+
+  function returnRatingColor(rating) {
+    if (rating >= 8) return "text-blue-700";
+    else if (rating >= 7) return "text-green-700";
+    else if (rating >= 6) return "text-yellow-700";
+    else return "text-red-700";
+  }
+
+  async function removeFav(id) {
+    try {
+      const user = await axios.post(
+        `http://localhost:3000/api/users/favMovies`,
+        {
+          movieId: id,
+        },
+        { withCredentials: true }
+      );
+      setUser(user.data);
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
   return (
     <div className="bg-my-black min-h-screen w-full box-border text-white flex flex-col items-center justify-center py-10">
       <title>Profile</title>
@@ -25,17 +47,44 @@ export default function Profile({ user }) {
 
       <div className="flex flex-wrap gap-3 space-y-3 w-[90%] max-w-6xl mx-auto">
         {favMovies ? (
-          favMovies.map((fav, i) => {
+          favMovies.map((movie, i) => {
             return (
-              <div key={i} className="w-65 h-120 border rounded-2xl">
+              <div
+                key={i}
+                className="w-65 h-155 bg-my-black-hover flex flex-col p-4 rounded-2xl"
+              >
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${fav.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 />
-                <h4 className="my-2 font-bold text-2xl">
-                  {fav.title.length < 30
-                    ? fav.title
-                    : fav.title.slice(0, 30) + " ..."}
-                </h4>
+                <div className="flex-1">
+                  <h4 className="my-2 font-bold text-2xl">
+                    {movie.title.length < 30
+                      ? movie.title
+                      : movie.title.slice(0, 30) + " ..."}
+                  </h4>
+                  <p>
+                    {movie.overview.length < 100
+                      ? movie.overview
+                      : movie.overview.slice(0, 100) + " ..."}
+                  </p>
+                </div>
+                <div className="flex justify-between">
+                  <div
+                    className="bg-white text-black px-4 py-1 rounded-xl cursor-pointer"
+                    onClick={() => {
+                      removeFav(movie.id);
+                    }}
+                  >
+                    remove from fav
+                  </div>
+                  <div
+                    className={`${returnRatingColor(
+                      Number(movie.vote_average)
+                    )}`}
+                  >
+                    {movie.vote_average}
+                  </div>
+                </div>
               </div>
             );
           })
