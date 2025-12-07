@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 
 export default function Profile({ user, setUser }) {
   const [favMovies, setFavMovies] = useState(null);
+  const apiKey = import.meta.env.VITE_XMDB_KEY;
+
   useEffect(() => {
     const loadFav = async () => {
       const requests = user.favMovies.map((id) =>
-        axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
-          params: { api_key: import.meta.env.VITE_TMDB_KEY },
-        })
+        axios.get(`https://xmdbapi.com/api/v1/movies/${id}?apiKey=${apiKey}`)
       );
       const data = await Promise.all(requests);
       setFavMovies(data.map((m) => m.data));
     };
     loadFav();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   function returnRatingColor(rating) {
@@ -53,9 +54,7 @@ export default function Profile({ user, setUser }) {
                 key={i}
                 className="w-65 h-155 bg-my-black-hover flex flex-col p-4 rounded-2xl"
               >
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                />
+                <img src={movie.poster_url} />
                 <div className="flex-1">
                   <h4 className="my-2 font-bold text-2xl">
                     {movie.title.length < 30
@@ -63,9 +62,11 @@ export default function Profile({ user, setUser }) {
                       : movie.title.slice(0, 30) + " ..."}
                   </h4>
                   <p>
-                    {movie.overview.length < 100
-                      ? movie.overview
-                      : movie.overview.slice(0, 100) + " ..."}
+                    {movie.plot
+                      ? movie.plot.length < 100
+                        ? movie.plot
+                        : movie.plot.slice(0, 100) + " ..."
+                      : "we're recently working on plot..."}
                   </p>
                 </div>
                 <div className="flex justify-between">

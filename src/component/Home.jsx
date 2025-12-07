@@ -28,7 +28,6 @@ export default function Home({ user, setUser }) {
                 .then((r) => r.data)
             )
           );
-          console.log(result);
         } else {
           const res = await axios.get(
             `https://xmdbapi.com/api/v1/trending?apiKey=${apiKey}`
