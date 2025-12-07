@@ -6,25 +6,43 @@ import Header from "./Header";
 export default function Home({ user, setUser }) {
   const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
+  const apiKey = import.meta.env.VITE_XMDB_KEY;
   useEffect(() => {
     const loadMovies = async () => {
       try {
         const query = searchParams.get("query");
+        let result;
+        if (query) {
+          const search = await axios.get(
+            `https://xmdbapi.com/api/v1/search?q=${query}&limit=10&apiKey=${apiKey}`
+          );
 
-        const searchString = query
-          ? `https://api.themoviedb.org/3/search/movie?api_key=${
-              import.meta.env.VITE_TMDB_KEY
-            }&query=${query}&page=1`
-          : `https://api.themoviedb.org/3/movie/popular?api_key=${
-              import.meta.env.VITE_TMDB_KEY
-            }`;
-        let popular = await axios.get(searchString);
-        setMovies(popular.data.results);
+          const results = search.data.results;
+
+          result = await Promise.all(
+            results.map((movie) =>
+              axios
+                .get(
+                  `https://xmdbapi.com/api/v1/movies/${movie.id}?apiKey=${apiKey}`
+                )
+                .then((r) => r.data)
+            )
+          );
+          console.log(result);
+        } else {
+          const res = await axios.get(
+            `https://xmdbapi.com/api/v1/trending?apiKey=${apiKey}`
+          );
+          result = res.data.results;
+        }
+
+        setMovies(result);
       } catch (ex) {
         console.log(ex);
       }
     };
     loadMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   function returnRatingColor(rating) {
@@ -50,7 +68,7 @@ export default function Home({ user, setUser }) {
   }
 
   return (
-    <main className="bg-my-black text-white pt-30 h-fit">
+    <main className="bg-my-black text-white pt-30 min-h-screen">
       <Header setUser={setUser} />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {user &&
@@ -60,9 +78,7 @@ export default function Home({ user, setUser }) {
                 key={i}
                 className="w-65 h-155 bg-my-black-hover flex flex-col p-4 rounded-2xl"
               >
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                />
+                <img src={movie.poster_url} />
                 <div className="flex-1">
                   <h4 className="my-2 font-bold text-2xl">
                     {movie.title.length < 30
@@ -70,9 +86,11 @@ export default function Home({ user, setUser }) {
                       : movie.title.slice(0, 30) + " ..."}
                   </h4>
                   <p>
-                    {movie.overview.length < 100
-                      ? movie.overview
-                      : movie.overview.slice(0, 100) + " ..."}
+                    {movie.plot
+                      ? movie.plot.length < 100
+                        ? movie.plot
+                        : movie.plot.slice(0, 100) + " ..."
+                      : "we're recently working on plot..."}
                   </p>
                 </div>
                 <div className="flex justify-between">
@@ -86,12 +104,8 @@ export default function Home({ user, setUser }) {
                       ? "remove from fav"
                       : "add to fav"}
                   </div>
-                  <div
-                    className={`${returnRatingColor(
-                      Number(movie.vote_average)
-                    )}`}
-                  >
-                    {movie.vote_average}
+                  <div className={`${returnRatingColor(Number(movie.rating))}`}>
+                    {movie.rating}
                   </div>
                 </div>
               </div>
