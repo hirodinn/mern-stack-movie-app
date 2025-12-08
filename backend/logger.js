@@ -21,6 +21,13 @@ const logger = winston.createLogger({
     }),
     new winston.transports.File({ filename: "logs/combined.log" }),
   ],
+  exceptionHandlers: [
+    new winston.transports.File({ filename: "logs/uncaught.log" }),
+  ],
+
+  rejectionHandlers: [
+    new winston.transports.File({ filename: "logs/unhandledRejection.log" }),
+  ],
 });
 
 export default logger;
