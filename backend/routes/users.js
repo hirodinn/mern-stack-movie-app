@@ -2,6 +2,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import logger from "../logger.js";
 
 import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
@@ -10,35 +11,33 @@ const route = express.Router();
 route.post("/", async (req, res) => {
   const { error } = validateNewUser(req.body);
   if (error)
-    res.status(400).json({ success: false, message: error.details[0].message });
-  try {
-    const user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      favMovies: req.body.favMovies,
-    });
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+    return res
+      .status(400)
+      .json({ success: false, message: error.details[0].message });
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    favMovies: req.body.favMovies,
+  });
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
 
-    const token = user.getAuthToken();
+  const token = user.getAuthToken();
 
-    res.cookie("token", token, {
-      httpOnly: true, // JS cannot access it
-      secure: true, // set true in production with HTTPS
-      sameSite: "None",
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    });
+  res.cookie("token", token, {
+    httpOnly: true, // JS cannot access it
+    secure: true, // set true in production with HTTPS
+    sameSite: "None",
+    path: "/",
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  });
 
-    await user.save();
-    res.json({
-      success: true,
-      message: `Register successful, Welcome ${user.name}`,
-    });
-  } catch (ex) {
-    res.status(500).json({ success: false, message: ex.message });
-  }
+  await user.save();
+  res.json({
+    success: true,
+    message: `Register successful, Welcome ${user.name}`,
+  });
 });
 
 route.get("/me", async (req, res) => {
@@ -49,13 +48,17 @@ route.get("/me", async (req, res) => {
   });
   const token = req.cookies.token;
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_KEY);
-    const user = await User.findById(decoded._id).select("-password");
-    res.send(user);
-  } catch {
-    res.status(400).send("Invalid token");
-  }
+  const decoded = jwt.verify(token, process.env.JWT_KEY);
+  const user = await User.findById(decoded._id).select("-password");
+  logger.info({
+    message: "Fetched logged-in user info",
+    userId: user?._id || null,
+    email: user?.email || null,
+    route: req.originalUrl,
+    method: req.method,
+    timestamp: new Date().toISOString(),
+  });
+  res.send(user);
 });
 
 route.post("/login", async (req, res) => {
@@ -64,33 +67,29 @@ route.post("/login", async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: error.details[0].message });
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user)
-      return res
-        .status(404)
-        .json({ success: false, message: "email or password error" });
-    const isValid = await bcrypt.compare(req.body.password, user.password);
-    const token = user.getAuthToken();
-    if (isValid) {
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        path: "/",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-      res.json({
-        success: true,
-        message: `Login successful, Welcome ${user.name}`,
-      });
-    } else
-      res
-        .status(404)
-        .json({ success: false, message: "email or password error" });
-  } catch {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
+  const user = await User.findOne({ email: req.body.email });
+  if (!user)
+    return res
+      .status(404)
+      .json({ success: false, message: "email or password error" });
+  const isValid = await bcrypt.compare(req.body.password, user.password);
+  const token = user.getAuthToken();
+  if (isValid) {
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    res.json({
+      success: true,
+      message: `Login successful, Welcome ${user.name}`,
+    });
+  } else
+    res
+      .status(404)
+      .json({ success: false, message: "email or password error" });
 });
 
 route.post("/favMovies", async (req, res) => {
