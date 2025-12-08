@@ -7,9 +7,15 @@ import dotenv from "dotenv";
 import users from "./routes/users.js";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/error.js";
+import logger from "./logger.js";
 
 dotenv.config();
 const app = express();
+
+process.on("uncaughtException", (ex) => {
+  console.log("WE GOT UNCAUGHT EXCEPTION");
+  logger.error(ex.message, ex);
+});
 
 Joi.objectId = joi(Joi);
 mongoose
