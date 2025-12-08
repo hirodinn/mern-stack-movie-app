@@ -7,15 +7,20 @@ import dotenv from "dotenv";
 import users from "./routes/users.js";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/error.js";
-import logger from "./logger.js";
 
 dotenv.config();
 const app = express();
 
-process.on("uncaughtException", (ex) => {
-  console.log("WE GOT UNCAUGHT EXCEPTION");
-  logger.error(ex.message, ex);
-});
+// exception for winston to handle it
+/*
+const p = Promise.reject(new Error("unhandled rejection"));
+p.then(() => console.log("done"));
+*/
+
+//error for winston to catch it
+/*
+throw new Error('Unhandeled Error')
+*/
 
 Joi.objectId = joi(Joi);
 mongoose
