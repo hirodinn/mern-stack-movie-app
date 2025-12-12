@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import Joi from "joi";
 import joi from "joi-objectid";
@@ -23,10 +22,6 @@ throw new Error('Unhandeled Error')
 */
 
 Joi.objectId = joi(Joi);
-mongoose
-  .connect("mongodb://localhost/movierental")
-  .then(() => console.log("Connected to Mongo DB..."))
-  .catch((err) => console.log(err));
 
 const allowedOrigins = [
   "http://localhost:5173", // your local frontend
