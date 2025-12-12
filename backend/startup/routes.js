@@ -1,7 +1,7 @@
 import cors from "cors";
-import users from "./routes/users.js";
+import users from "../routes/users.js";
 import cookieParser from "cookie-parser";
-import errorHandler from "./middleware/error.js";
+import errorHandler from "../middleware/error.js";
 export default function (app) {
   const allowedOrigins = [
     "http://localhost:5173", // your local frontend
