@@ -19,9 +19,4 @@ throw new Error('Unhandeled Error')
 
 Joi.objectId = joi(Joi);
 
-const allowedOrigins = [
-  "http://localhost:5173", // your local frontend
-  "https://mern-stack-movie-app.vercel.app", // deployed frontend
-];
-
 app.listen(3000, () => console.log("Listening to port 3000..."));

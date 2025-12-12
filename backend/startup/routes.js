@@ -3,6 +3,10 @@ import users from "./routes/users.js";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/error.js";
 export default function (app) {
+  const allowedOrigins = [
+    "http://localhost:5173", // your local frontend
+    "https://mern-stack-movie-app.vercel.app", // deployed frontend
+  ];
   app.use(
     cors({
       origin: function (origin, callback) {
