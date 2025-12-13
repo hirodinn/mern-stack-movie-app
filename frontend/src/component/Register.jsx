@@ -6,6 +6,8 @@ export default function Register({ setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -38,23 +40,36 @@ export default function Register({ setUser }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate() || !avatar) return;
+
     try {
+      const formData = new FormData();
+      formData.append("name", form.name);
+      formData.append("email", form.email);
+      formData.append("password", form.password);
+
+      if (avatar) {
+        formData.append("avatar", avatar);
+      }
+
       const user = await axios.post(
         "http://localhost:3000/api/users",
+        formData,
         {
-          email: form.email,
-          password: form.password,
-          name: form.name,
-        },
-        { withCredentials: true }
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+
       if (user.data) {
         setSuccess(user.data.message);
+
         const u = await axios.get("http://localhost:3000/api/users/me", {
           withCredentials: true,
         });
-        console.log(u);
+
         setTimeout(() => {
           setUser(u.data);
           navigate("/");
@@ -138,6 +153,18 @@ export default function Register({ setUser }) {
               </p>
             )}
           </div>
+          <div className="flex flex-col">
+            <label className="text-white font-semibold mb-1">
+              Profile Image
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setAvatar(e.target.files[0])}
+              className="text-white"
+            />
+          </div>
+
           <div className="flex flex-col mt-3 gap-3 text-center text-[17px] font-medium">
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-400">{success}</p>}
