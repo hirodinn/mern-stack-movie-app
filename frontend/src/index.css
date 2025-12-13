@@ -1,9 +1,24 @@
 @import "tailwindcss";
+@tailwind utilities;
 
-@theme {
-  --color-my-black: #040513;
-  --color-my-black-hover: #080924;
+:root {
+  --gradient-start: #60a5fa;
+  --gradient-middle: #93c5fd;
+  --gradient-end: #e0f2fe;
 }
-.trial {
-  color: #080924;
+
+.dark {
+  --gradient-start: #1e293b;
+  --gradient-middle: #334155;
+  --gradient-end: #0f172a;
+}
+
+.bg-gradient-custom {
+  background: linear-gradient(
+    to right,
+    var(--gradient-start),
+    var(--gradient-middle),
+    var(--gradient-end)
+  );
+  transition: background 0.5s ease;
 }

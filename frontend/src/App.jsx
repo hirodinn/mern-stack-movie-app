@@ -11,6 +11,7 @@ import NotFound404 from "./component/NotFound404";
 
 function App() {
   const user = useSelector((state) => state.userInfo.user);
+  const darkMode = useSelector((state) => state.userInfo.darkMode);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,20 +29,22 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Routes>
-      {user ? (
-        <>
-          <Route index element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-        </>
-      ) : (
-        <>
-          <Route index element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </>
-      )}
-      <Route path="*" element={<NotFound404 />} />
-    </Routes>
+    <div className={darkMode && "dark"}>
+      <Routes>
+        {user ? (
+          <>
+            <Route index element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+          </>
+        ) : (
+          <>
+            <Route index element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </>
+        )}
+        <Route path="*" element={<NotFound404 />} />
+      </Routes>
+    </div>
   );
 }
 
