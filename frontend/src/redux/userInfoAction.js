@@ -7,6 +7,6 @@ export function add(obj) {
 export function makeDark(val) {
   return {
     type: "THEME",
-    payload: { darkMode: val },
+    payload: val,
   };
 }

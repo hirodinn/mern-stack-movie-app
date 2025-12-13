@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { add } from "../redux/userInfoAction";
+import { Theme } from "./Theme";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function Header() {
 
   return (
     <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200">
+      <Theme />
       <form
         className="flex-1 max-w-4xl mx-auto h-[60%] flex text-[19px]  px-7"
         onSubmit={search}
