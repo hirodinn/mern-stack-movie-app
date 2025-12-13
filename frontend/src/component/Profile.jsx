@@ -44,7 +44,7 @@ export default function Profile({ user, setUser }) {
       <title>Profile</title>
 
       {/* Movie Cards Section */}
-      <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border px-15 pr-88">
+      <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border pl-15 pr-50 md:pr-88">
         {favMovies ? (
           favMovies.map((movie, i) => (
             <div
@@ -90,7 +90,7 @@ export default function Profile({ user, setUser }) {
       </div>
 
       {/* Profile Sidebar */}
-      <div className="min-h-screen flex items-center justify-center p-6 shrink-0 w-88 fixed right-5 top-0">
+      <div className="min-h-screen flex items-center justify-center p-6 shrink-0 w-70 md:w-88 fixed right-0 top-0">
         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center">
           {/* Avatar */}
           <div className="flex justify-center">
@@ -119,9 +119,6 @@ export default function Profile({ user, setUser }) {
           {/* Actions */}
           <div className="flex gap-4 justify-center">
             <button className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow">
-              Edit Profile
-            </button>
-            <button className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow">
               Logout
             </button>
           </div>
