@@ -1,8 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { add } from "../redux/userInfoAction";
 
-export default function Login({ setUser }) {
+export default function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -26,7 +29,7 @@ export default function Login({ setUser }) {
           withCredentials: true,
         });
         setTimeout(() => {
-          setUser(u.data);
+          dispatch(add(u.data));
         }, 300);
       }
     } catch (err) {

@@ -1,8 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export default function Header({ setUser }) {
+import { useDispatch } from "react-redux";
+import { add } from "../redux/userInfoAction";
+
+export default function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   function search(e) {
     e.preventDefault();
@@ -20,7 +24,7 @@ export default function Header({ setUser }) {
           withCredentials: true,
         }
       );
-      setUser(null);
+      dispatch(add(null));
       navigate("/");
     } catch (err) {
       console.log(err.message);

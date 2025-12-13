@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { add } from "../redux/userInfoAction";
 
-export default function Register({ setUser }) {
+export default function Register() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -71,7 +74,7 @@ export default function Register({ setUser }) {
         });
 
         setTimeout(() => {
-          setUser(u.data);
+          dispatch(add(u.data));
           navigate("/");
         }, 300);
       }
