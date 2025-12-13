@@ -86,7 +86,7 @@ export default function Register({ setUser }) {
   };
 
   return (
-    <div className="w-full min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-red-900 flex items-center justify-center p-5">
+    <div className="w-full min-h-screen bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 flex items-center justify-center p-5">
       <title>Register</title>
 
       <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md p-10 flex flex-col gap-6 border border-white/20">
@@ -101,7 +101,7 @@ export default function Register({ setUser }) {
               name="name"
               value={form.name}
               onChange={handleChange}
-              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-blue-400 text-white placeholder-white/70 outline-none transition"
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name}</p>
@@ -115,7 +115,7 @@ export default function Register({ setUser }) {
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-blue-400 text-white placeholder-white/70 outline-none transition"
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -129,7 +129,7 @@ export default function Register({ setUser }) {
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-blue-400 text-white placeholder-white/70 outline-none transition"
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
@@ -145,7 +145,7 @@ export default function Register({ setUser }) {
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
-              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-blue-400 text-white placeholder-white/70 outline-none transition"
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm mt-1">
@@ -153,6 +153,7 @@ export default function Register({ setUser }) {
               </p>
             )}
           </div>
+
           <div className="flex flex-col">
             <label className="text-white font-semibold mb-1">
               Profile Image
@@ -169,17 +170,18 @@ export default function Register({ setUser }) {
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-400">{success}</p>}
           </div>
+
           <div className="flex mt-4 justify-between">
             <button
               type="submit"
-              className="bg-purple-500 hover:bg-purple-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
+              className="bg-cyan-500 hover:bg-cyan-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Register
             </button>
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="bg-pink-500 hover:bg-pink-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
+              className="bg-blue-500 hover:bg-blue-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Login
             </button>

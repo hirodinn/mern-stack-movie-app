@@ -40,58 +40,92 @@ export default function Profile({ user, setUser }) {
   }
 
   return (
-    <div className="bg-my-black min-h-screen w-full box-border text-white flex flex-col items-center justify-center py-10">
+    <div className="bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 min-h-screen w-full box-border text-white flex items-center">
       <title>Profile</title>
-      <h1 className="text-4xl">Name: {user.name}</h1>
-      <h1 className="text-4xl my-5">Email: {user.email}</h1>
-      <h1 className="text-4xl mb-5">Favorite Movies</h1>
 
-      <div className="flex flex-wrap gap-3 space-y-3 w-[90%] max-w-6xl mx-auto">
+      {/* Movie Cards Section */}
+      <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border px-15 pr-88">
         {favMovies ? (
-          favMovies.map((movie, i) => {
-            return (
-              <div
-                key={i}
-                className="w-65 h-155 bg-my-black-hover flex flex-col p-4 rounded-2xl"
-              >
-                <img src={movie.poster_url} className="h-[60%] object-cover" />
-                <div className="flex-1">
-                  <h4 className="my-2 font-bold text-2xl">
-                    {movie.title.length < 30
-                      ? movie.title
-                      : movie.title.slice(0, 30) + " ..."}
-                  </h4>
-                  <p>
-                    {movie.plot
-                      ? movie.plot.length < 100
-                        ? movie.plot
-                        : movie.plot.slice(0, 100) + " ..."
-                      : "we're recently working on plot..."}
-                  </p>
+          favMovies.map((movie, i) => (
+            <div
+              key={i}
+              className="w-65 h-155 bg-white/10 backdrop-blur-md border border-white/20 flex flex-col p-4 rounded-2xl shadow-lg"
+            >
+              <img
+                src={movie.poster_url}
+                className="h-[60%] object-cover rounded-lg"
+              />
+              <div className="flex-1 mt-2">
+                <h4 className="font-bold text-2xl">
+                  {movie.title.length < 30
+                    ? movie.title
+                    : movie.title.slice(0, 30) + " ..."}
+                </h4>
+                <p className="text-white/80 text-sm mt-1">
+                  {movie.plot
+                    ? movie.plot.length < 100
+                      ? movie.plot
+                      : movie.plot.slice(0, 100) + " ..."
+                    : "we're recently working on plot..."}
+                </p>
+              </div>
+              <div className="flex justify-between mt-2">
+                <div
+                  className="bg-white text-black px-4 py-1 rounded-xl cursor-pointer hover:bg-gray-200 transition"
+                  onClick={() => removeFav(movie.id)}
+                >
+                  Remove from fav
                 </div>
-                <div className="flex justify-between">
-                  <div
-                    className="bg-white text-black px-4 py-1 rounded-xl cursor-pointer"
-                    onClick={() => {
-                      removeFav(movie.id);
-                    }}
-                  >
-                    remove from fav
-                  </div>
-                  <div
-                    className={`${returnRatingColor(
-                      Number(movie.vote_average)
-                    )}`}
-                  >
-                    {movie.vote_average}
-                  </div>
+                <div
+                  className={`${returnRatingColor(Number(movie.vote_average))}`}
+                >
+                  {movie.vote_average}
                 </div>
               </div>
-            );
-          })
+            </div>
+          ))
         ) : (
           <div className="w-14 h-14 rounded-full animate-spin border-2 border-blue-900 border-b-blue-300 mx-auto"></div>
         )}
+      </div>
+
+      {/* Profile Sidebar */}
+      <div className="min-h-screen flex items-center justify-center p-6 shrink-0 w-88 fixed right-5 top-0">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center">
+          {/* Avatar */}
+          <div className="flex justify-center">
+            <img
+              src={
+                user?.avatar
+                  ? `http://localhost:3000${user.avatar}`
+                  : "https://ui-avatars.com/api/?name=User&background=22d3ee&color=fff"
+              }
+              alt="Profile"
+              className="w-32 h-32 rounded-full border-4 border-cyan-400 shadow-lg object-cover"
+            />
+          </div>
+
+          {/* Name */}
+          <h2 className="mt-4 text-3xl font-extrabold text-white drop-shadow">
+            {user?.name}
+          </h2>
+
+          {/* Email */}
+          <p className="mt-2 text-white/80 text-sm break-all">{user?.email}</p>
+
+          {/* Divider */}
+          <div className="my-6 h-px bg-white/20" />
+
+          {/* Actions */}
+          <div className="flex gap-4 justify-center">
+            <button className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow">
+              Edit Profile
+            </button>
+            <button className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow">
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

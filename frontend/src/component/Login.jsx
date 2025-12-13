@@ -42,7 +42,7 @@ export default function Login({ setUser }) {
   }
 
   return (
-    <div className="w-full h-screen bg-linear-to-br from-purple-900 via-pink-900 to-red-900 flex items-center justify-center p-5">
+    <div className="w-full h-screen bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 flex items-center justify-center p-5">
       <title>Login</title>
 
       <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md p-10 flex flex-col gap-6 border border-white/20">
@@ -58,7 +58,7 @@ export default function Login({ setUser }) {
               type="email"
               id="email"
               placeholder="Enter your email..."
-              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-blue-400 text-white placeholder-white/70 outline-none transition"
               required
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -72,7 +72,7 @@ export default function Login({ setUser }) {
               type="password"
               id="password"
               placeholder="Enter your password..."
-              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-pink-400 text-white placeholder-white/70 outline-none transition"
+              className="px-4 py-2 rounded-xl bg-white/20 border border-white/40 focus:ring-2 focus:ring-blue-400 text-white placeholder-white/70 outline-none transition"
               required
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -86,13 +86,13 @@ export default function Login({ setUser }) {
             <button
               type="button"
               onClick={() => navigate("/register")}
-              className="bg-pink-500 hover:bg-pink-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
+              className="bg-blue-500 hover:bg-blue-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Register
             </button>
             <button
               type="submit"
-              className="bg-purple-500 hover:bg-purple-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
+              className="bg-cyan-500 hover:bg-cyan-600 transition text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg"
             >
               Login
             </button>

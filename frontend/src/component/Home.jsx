@@ -70,7 +70,7 @@ export default function Home({ user, setUser }) {
   }
 
   return (
-    <main className="bg-my-black text-white pt-30 min-h-screen">
+    <main className="bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 text-white pt-30 min-h-screen">
       <Header setUser={setUser} />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {user &&
@@ -78,7 +78,8 @@ export default function Home({ user, setUser }) {
             return (
               <div
                 key={i}
-                className="w-65 h-155 bg-my-black-hover flex flex-col p-4 rounded-2xl"
+                className="w-65 h-155 bg-linear-to-br from-blue-500 via-blue-400 to-blue-300
+ flex flex-col p-4 rounded-2xl"
               >
                 <img src={movie.poster_url} className="h-[60%] object-cover" />
                 <div className="flex-1">

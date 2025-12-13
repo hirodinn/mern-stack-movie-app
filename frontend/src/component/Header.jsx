@@ -28,7 +28,7 @@ export default function Header({ setUser }) {
   }
 
   return (
-    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-my-black">
+    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200">
       <form
         className="flex-1 max-w-4xl mx-auto h-[60%] flex text-[19px]  px-7"
         onSubmit={search}
@@ -42,7 +42,7 @@ export default function Header({ setUser }) {
           placeholder="Search for Films"
           className="flex-1 h-full border-2 border-gray-600 rounded-3xl focus:outline-none pl-5 "
         />
-        <button className="ml-3 border-2 border-gray-600 px-5 rounded-3xl cursor-pointer bg-my-black-hover hover:bg-my-black">
+        <button className="ml-3 px-5 rounded-3xl cursor-pointer bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200">
           search
         </button>
       </form>
