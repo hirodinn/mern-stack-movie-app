@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile({ user, setUser }) {
   const [favMovies, setFavMovies] = useState(null);
+  const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_XMDB_KEY;
 
   useEffect(() => {
@@ -39,11 +41,26 @@ export default function Profile({ user, setUser }) {
     }
   }
 
+  async function logout() {
+    try {
+      await axios.post(
+        "http://localhost:3000/api/users/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      setUser(null);
+      navigate("/");
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   return (
     <div className="bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 min-h-screen w-full box-border text-white flex items-center">
       <title>Profile</title>
 
-      {/* Movie Cards Section */}
       <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border pl-15 pr-50 md:pr-88">
         {favMovies ? (
           favMovies.map((movie, i) => (
@@ -89,10 +106,8 @@ export default function Profile({ user, setUser }) {
         )}
       </div>
 
-      {/* Profile Sidebar */}
       <div className="min-h-screen flex items-center justify-center p-6 shrink-0 w-70 md:w-88 fixed right-0 top-0">
         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center">
-          {/* Avatar */}
           <div className="flex justify-center">
             <img
               src={
@@ -105,20 +120,19 @@ export default function Profile({ user, setUser }) {
             />
           </div>
 
-          {/* Name */}
           <h2 className="mt-4 text-3xl font-extrabold text-white drop-shadow">
             {user?.name}
           </h2>
 
-          {/* Email */}
           <p className="mt-2 text-white/80 text-sm break-all">{user?.email}</p>
 
-          {/* Divider */}
           <div className="my-6 h-px bg-white/20" />
 
-          {/* Actions */}
           <div className="flex gap-4 justify-center">
-            <button className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow">
+            <button
+              className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow"
+              onClick={logout}
+            >
               Logout
             </button>
           </div>
