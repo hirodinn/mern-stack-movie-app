@@ -26,6 +26,7 @@ export default function (app) {
 
   app.use(express.json());
   app.use(cookieParser());
+  app.use("/uploads", express.static("uploads"));
   app.use("/api/users", users);
 
   app.use(errorHandler);

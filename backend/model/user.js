@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  avatar: {
+    type: String,
+    default: "",
+  },
 });
 
 userSchema.methods.getAuthToken = function () {
@@ -44,6 +48,7 @@ export function validateNewUser(obj) {
   });
   return schema.validate(obj || {});
 }
+
 export function validateOldUser(obj) {
   const schema = Joi.object({
     password: Joi.string().required().min(8),
@@ -51,6 +56,7 @@ export function validateOldUser(obj) {
   });
   return schema.validate(obj || {});
 }
+
 export function validateId(id) {
   const schema = Joi.object({
     id: Joi.objectId().required(),
