@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { add } from "../redux/userInfoAction";
+import { Theme } from "./Theme";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -89,8 +90,11 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 flex items-center justify-center p-5">
+    <div className="w-full min-h-screen bg-custom flex items-center justify-center p-5">
       <title>Register</title>
+      <div className="absolute top-2 left-2">
+        <Theme />
+      </div>
 
       <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md p-10 flex flex-col gap-6 border border-white/20">
         <h2 className="text-center font-extrabold text-5xl text-white drop-shadow-lg">

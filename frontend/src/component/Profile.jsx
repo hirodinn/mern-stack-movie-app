@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { add } from "../redux/userInfoAction";
 import { useNavigate } from "react-router-dom";
+import { Theme } from "./Theme";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -64,7 +65,9 @@ export default function Profile() {
   return (
     <div className="bg-custom min-h-screen w-full box-border text-white flex items-center">
       <title>Profile</title>
-
+      <div className="absolute top-2 left-2">
+        <Theme />
+      </div>
       <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border pl-15 pr-50 md:pr-88">
         {favMovies ? (
           favMovies.map((movie, i) => (
