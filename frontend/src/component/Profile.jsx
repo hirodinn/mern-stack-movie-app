@@ -62,7 +62,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 min-h-screen w-full box-border text-white flex items-center">
+    <div className="bg-custom min-h-screen w-full box-border text-white flex items-center">
       <title>Profile</title>
 
       <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border pl-15 pr-50 md:pr-88">

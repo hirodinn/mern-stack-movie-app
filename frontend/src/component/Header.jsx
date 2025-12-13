@@ -33,7 +33,7 @@ export default function Header() {
   }
 
   return (
-    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200">
+    <header className="h-20 flex items-center border-b-2 border-cyan-950 fixed top-0 left-0 right-0 z-10 bg-custom">
       <Theme />
       <form
         className="flex-1 max-w-4xl mx-auto h-[60%] flex text-[19px]  px-7"
@@ -48,7 +48,7 @@ export default function Header() {
           placeholder="Search for Films"
           className="flex-1 h-full border-2 border-gray-600 rounded-3xl focus:outline-none pl-5 "
         />
-        <button className="ml-3 px-5 rounded-3xl cursor-pointer bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200">
+        <button className="ml-3 px-5 rounded-3xl cursor-pointer bg-white/10 backdrop-blur-md border border-white/20 ">
           search
         </button>
       </form>

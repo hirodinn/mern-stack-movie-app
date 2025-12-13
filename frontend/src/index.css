@@ -1,21 +1,24 @@
 @import "tailwindcss";
 @tailwind utilities;
 
+/* Light mode gradient */
 :root {
-  --gradient-start: #60a5fa;
-  --gradient-middle: #93c5fd;
-  --gradient-end: #e0f2fe;
+  --gradient-start: oklch(70.7% 0.165 254.624); /* blue-400 */
+  --gradient-middle: oklch(80.9% 0.105 251.813); /* blue-300 */
+  --gradient-end: oklch(91.7% 0.08 205.041); /* cyan-200 */
 }
 
+/* Dark mode gradient (example, can be any colors) */
 .dark {
-  --gradient-start: #1e293b;
-  --gradient-middle: #334155;
-  --gradient-end: #0f172a;
+  --gradient-start: #1e293b; /* gray-800 */
+  --gradient-middle: #334155; /* gray-700 */
+  --gradient-end: #0f172a; /* gray-900 */
 }
 
-.bg-gradient-custom {
+/* Custom utility using the variables */
+.bg-custom {
   background: linear-gradient(
-    to right,
+    to bottom right,
     var(--gradient-start),
     var(--gradient-middle),
     var(--gradient-end)

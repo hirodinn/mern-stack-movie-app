@@ -75,7 +75,7 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 text-white pt-30 min-h-screen">
+    <main className="bg-custom text-white pt-30 min-h-screen">
       <Header />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {user &&
@@ -83,7 +83,7 @@ export default function Home() {
             return (
               <div
                 key={i}
-                className="w-65 h-155 bg-linear-to-br from-blue-500 via-blue-400 to-blue-300
+                className="w-65 h-155 bg-linear-to-br bg-white/10 backdrop-blur-md border border-white/20
  flex flex-col p-4 rounded-2xl"
               >
                 <img src={movie.poster_url} className="h-[60%] object-cover" />
