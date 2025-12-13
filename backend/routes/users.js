@@ -3,37 +3,44 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import logger from "../logger.js";
+import { upload } from "../middleware/upload.js";
 
 import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
 const route = express.Router();
 
-route.post("/", async (req, res) => {
+route.post("/", upload.single("avatar"), async (req, res) => {
   const { error } = validateNewUser(req.body);
   if (error)
     return res
       .status(400)
       .json({ success: false, message: error.details[0].message });
+
+  const avatar = req.file ? `/uploads/${req.file.filename}` : "";
+
   const user = new User({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     favMovies: req.body.favMovies,
+    avatar,
   });
+
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 
   const token = user.getAuthToken();
 
   res.cookie("token", token, {
-    httpOnly: true, // JS cannot access it
-    secure: true, // set true in production with HTTPS
+    httpOnly: true,
+    secure: true,
     sameSite: "None",
     path: "/",
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 24 * 60 * 60 * 1000,
   });
 
   await user.save();
+
   res.json({
     success: true,
     message: `Register successful, Welcome ${user.name}`,
