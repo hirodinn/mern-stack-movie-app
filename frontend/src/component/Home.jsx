@@ -1,11 +1,16 @@
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { add } from "../redux/userInfoAction";
 import Header from "./Header";
 
-export default function Home({ user, setUser }) {
+export default function Home() {
   const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userInfo.user);
+
   const apiKey = import.meta.env.VITE_XMDB_KEY;
   useEffect(() => {
     const loadMovies = async () => {
@@ -63,7 +68,7 @@ export default function Home({ user, setUser }) {
         },
         { withCredentials: true }
       );
-      setUser(user.data);
+      dispatch(add(user.data));
     } catch (ex) {
       console.log(ex);
     }
@@ -71,7 +76,7 @@ export default function Home({ user, setUser }) {
 
   return (
     <main className="bg-linear-to-br from-blue-400 via-blue-300 to-cyan-200 text-white pt-30 min-h-screen">
-      <Header setUser={setUser} />
+      <Header />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {user &&
           movies.map((movie, i) => {

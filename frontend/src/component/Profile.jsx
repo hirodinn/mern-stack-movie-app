@@ -1,8 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { add } from "../redux/userInfoAction";
 import { useNavigate } from "react-router-dom";
 
-export default function Profile({ user, setUser }) {
+export default function Profile() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userInfo.user);
   const [favMovies, setFavMovies] = useState(null);
   const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_XMDB_KEY;
@@ -35,7 +39,7 @@ export default function Profile({ user, setUser }) {
         },
         { withCredentials: true }
       );
-      setUser(user.data);
+      dispatch(add(user.data));
     } catch (ex) {
       console.log(ex);
     }
@@ -50,7 +54,7 @@ export default function Profile({ user, setUser }) {
           withCredentials: true,
         }
       );
-      setUser(null);
+      dispatch(add(null));
       navigate("/");
     } catch (err) {
       console.log(err.message);
