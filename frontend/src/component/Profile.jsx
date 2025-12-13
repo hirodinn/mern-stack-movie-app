@@ -137,7 +137,15 @@ export default function Profile() {
 
           <div className="flex gap-4 justify-center">
             <button
-              className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow"
+              className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow cursor-pointer"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Home
+            </button>
+            <button
+              className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow cursor-pointer"
               onClick={logout}
             >
               Logout
