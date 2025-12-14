@@ -79,8 +79,18 @@ export default function Profile() {
     if (editName.length < 5) {
       Message("name should be at least 5 characters", "red");
     } else {
-      Message("yes", "green");
-      setEditProfile(false);
+      Message("Name updated Successfully", "green");
+      const u = await axios.put(
+        `http://localhost:3000/api/users`,
+        {
+          name: editName,
+        },
+        { withCredentials: true }
+      );
+      dispatch(add(u.data));
+      setTimeout(() => {
+        setEditProfile(false);
+      }, 500);
     }
   }
 
