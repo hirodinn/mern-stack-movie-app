@@ -154,4 +154,18 @@ route.post("/logout", (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
+route.put("/", async (req, res) => {
+  res.set({
+    "Cache-Control": "no-store",
+    Pragma: "no-cache",
+    Expires: "0",
+  });
+  const token = req.cookies.token;
+  if (!token) return res.status(401).send("Access denied. No Token Provided!");
+  const decoded = jwt.verify(token, process.env.JWT_KEY);
+  const user = await User.findById(decoded._id).select("-password");
+  user.name = req.body.name;
+  await user.save();
+  res.send(user);
+});
 export default route;
