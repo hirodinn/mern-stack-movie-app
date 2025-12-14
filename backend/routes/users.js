@@ -2,6 +2,8 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import fs from "fs";
+import path from "path";
 import logger from "../logger.js";
 import { upload } from "../middleware/upload.js";
 
@@ -10,41 +12,61 @@ import { User, validateNewUser, validateOldUser } from "../model/user.js";
 const route = express.Router();
 
 route.post("/", upload.single("avatar"), async (req, res) => {
-  const { error } = validateNewUser(req.body);
-  if (error)
-    return res
-      .status(400)
-      .json({ success: false, message: error.details[0].message });
+  try {
+    const { error } = validateNewUser(req.body);
+    if (error)
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
 
-  const avatar = req.file ? `/uploads/${req.file.filename}` : "";
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email already exists" });
+    }
 
-  const user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    favMovies: req.body.favMovies,
-    avatar,
-  });
+    let avatarPath = "";
+    if (req.file) {
+      const uploadsDir = path.join("uploads");
+      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
+      const filename = Date.now() + path.extname(req.file.originalname);
+      avatarPath = `/uploads/${filename}`;
+      const filePath = path.join(uploadsDir, filename);
+      fs.writeFileSync(filePath, req.file.buffer);
+    }
 
-  const token = user.getAuthToken();
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      favMovies: req.body.favMovies,
+      avatar: avatarPath,
+    });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    path: "/",
-    maxAge: 24 * 60 * 60 * 1000,
-  });
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
 
-  await user.save();
+    const token = user.getAuthToken();
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
-  res.json({
-    success: true,
-    message: `Register successful, Welcome ${user.name}`,
-  });
+    await user.save();
+
+    res.json({
+      success: true,
+      message: `Register successful, Welcome ${user.name}`,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 route.get("/me", async (req, res) => {
