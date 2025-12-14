@@ -83,7 +83,7 @@ export default function Home() {
             return (
               <div
                 key={i}
-                className="w-65 h-155 bg-linear-to-br bg-white/10 backdrop-blur-md border border-white/20
+                className="w-65 h-155 bg-white/10 backdrop-blur-md border border-white/20
  flex flex-col p-4 rounded-2xl"
               >
                 <img src={movie.poster_url} className="h-[60%] object-cover" />
