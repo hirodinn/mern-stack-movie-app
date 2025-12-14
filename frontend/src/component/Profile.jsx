@@ -10,6 +10,7 @@ export default function Profile() {
   const user = useSelector((state) => state.userInfo.user);
   const [editProfile, setEditProfile] = useState(false);
   const inputRef = useRef(null);
+  const [message, setMessage] = useState(null);
   const [editName, setEditName] = useState(user.name);
   const [favMovies, setFavMovies] = useState(null);
   const navigate = useNavigate();
@@ -67,6 +68,19 @@ export default function Profile() {
       navigate("/");
     } catch (err) {
       console.log(err.message);
+    }
+  }
+
+  function Message(message, color) {
+    setMessage(<p className={`text-${color}-700`}>{message}</p>);
+  }
+
+  async function changeProfile() {
+    if (editName.length < 5) {
+      Message("name should be at least 5 characters", "red");
+    } else {
+      Message("yes", "green");
+      setEditProfile(false);
     }
   }
 
@@ -182,7 +196,7 @@ export default function Profile() {
                 onChange={(e) => setEditName(e.target.value)}
                 ref={inputRef}
               />
-
+              {message}
               <div className="my-6 h-px bg-white/20" />
 
               <div className="flex gap-4 justify-center">
@@ -190,7 +204,7 @@ export default function Profile() {
                   className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl 
                    text-white font-semibold shadow cursor-pointer"
                   onClick={() => {
-                    setEditProfile(false);
+                    changeProfile();
                   }}
                 >
                   Save
