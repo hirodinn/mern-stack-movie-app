@@ -8,6 +8,7 @@ import { Theme } from "./Theme";
 export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo.user);
+  const [editProfile, setEditProfile] = useState(false);
   const [favMovies, setFavMovies] = useState(null);
   const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_XMDB_KEY;
@@ -126,31 +127,46 @@ export default function Profile() {
               className="w-32 h-32 rounded-full border-4 border-cyan-400 shadow-lg object-cover"
             />
           </div>
+          {!editProfile ? (
+            <>
+              <h2 className="mt-4 text-3xl font-extrabold text-white drop-shadow">
+                {user?.name}
+              </h2>
 
-          <h2 className="mt-4 text-3xl font-extrabold text-white drop-shadow">
-            {user?.name}
-          </h2>
+              <p className="mt-2 text-white/80 text-sm break-all">
+                {user?.email}
+              </p>
 
-          <p className="mt-2 text-white/80 text-sm break-all">{user?.email}</p>
+              <div className="my-6 h-px bg-white/20" />
 
-          <div className="my-6 h-px bg-white/20" />
-
-          <div className="flex gap-4 justify-center">
-            <button
-              className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow cursor-pointer"
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Home
-            </button>
-            <button
-              className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow cursor-pointer"
-              onClick={logout}
-            >
-              Logout
-            </button>
-          </div>
+              <div className="flex gap-4 justify-center">
+                <button
+                  className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow cursor-pointer"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  Home
+                </button>
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl text-white font-semibold shadow cursor-pointer"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </div>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 mt-3 rounded-xl text-white font-semibold shadow cursor-pointer"
+                onClick={() => {
+                  setEditProfile(true);
+                }}
+              >
+                Edit
+              </button>
+            </>
+          ) : (
+            <form>This is the form we all looking for</form>
+          )}
         </div>
       </div>
     </div>
