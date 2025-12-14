@@ -75,7 +75,8 @@ export default function Profile() {
     setMessage(<p className={`text-${color}-700`}>{message}</p>);
   }
 
-  async function changeProfile() {
+  async function changeProfile(e) {
+    e.preventDefault();
     if (editName.length < 5) {
       Message("name should be at least 5 characters", "red");
     } else {
@@ -196,7 +197,7 @@ export default function Profile() {
               </button>
             </>
           ) : (
-            <>
+            <form onSubmit={changeProfile}>
               <input
                 type="text"
                 className="mt-4 w-full max-w-xs bg-white/10 text-3xl font-extrabold text-white 
@@ -213,9 +214,7 @@ export default function Profile() {
                 <button
                   className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl 
                    text-white font-semibold shadow cursor-pointer"
-                  onClick={() => {
-                    changeProfile();
-                  }}
+                  type="submit"
                 >
                   Save
                 </button>
@@ -224,11 +223,12 @@ export default function Profile() {
                   className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl 
                    text-white font-semibold shadow cursor-pointer"
                   onClick={() => setEditProfile(false)}
+                  type="button"
                 >
                   Cancel
                 </button>
               </div>
-            </>
+            </form>
           )}
         </div>
       </div>
