@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { add } from "../redux/userInfoAction";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo.user);
   const [editProfile, setEditProfile] = useState(false);
+  const inputRef = useRef(null);
   const [editName, setEditName] = useState(user.name);
   const [favMovies, setFavMovies] = useState(null);
   const navigate = useNavigate();
@@ -25,6 +26,11 @@ export default function Profile() {
     loadFav();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+  useEffect(() => {
+    if (editProfile && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [editProfile]);
 
   function returnRatingColor(rating) {
     if (rating >= 8) return "text-blue-700";
@@ -174,6 +180,7 @@ export default function Profile() {
                  focus:ring-2 focus:ring-cyan-400 text-center"
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
+                ref={inputRef}
               />
 
               <div className="my-6 h-px bg-white/20" />
@@ -183,7 +190,6 @@ export default function Profile() {
                   className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl 
                    text-white font-semibold shadow cursor-pointer"
                   onClick={() => {
-                    // TODO: save logic here
                     setEditProfile(false);
                   }}
                 >
