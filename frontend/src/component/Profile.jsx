@@ -72,7 +72,7 @@ export default function Profile() {
   }
 
   function Message(message, color) {
-    setMessage(<p className={`text-${color}-700`}>{message}</p>);
+    setMessage(<p className={`text-${color}-700 mt-6`}>{message}</p>);
   }
 
   async function changeProfile(e) {
@@ -91,6 +91,7 @@ export default function Profile() {
       dispatch(add(u.data));
       setTimeout(() => {
         setEditProfile(false);
+        setMessage(null);
       }, 500);
     }
   }
