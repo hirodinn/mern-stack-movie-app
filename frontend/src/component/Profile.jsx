@@ -65,10 +65,10 @@ export default function Profile() {
   return (
     <div className="bg-custom min-h-screen w-full box-border text-white flex items-center">
       <title>Profile</title>
-      <div className="absolute top-2 left-2">
+      <div className="fixed top-2 left-1">
         <Theme />
       </div>
-      <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border pl-15 pr-50 md:pr-88">
+      <div className="flex flex-wrap gap-3 space-y-3 flex-1 box-border pl-17 pr-50 md:pr-88">
         {favMovies ? (
           favMovies.map((movie, i) => (
             <div
