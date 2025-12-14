@@ -9,6 +9,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo.user);
   const [editProfile, setEditProfile] = useState(false);
+  const [editName, setEditName] = useState(user.name);
   const [favMovies, setFavMovies] = useState(null);
   const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_XMDB_KEY;
@@ -165,7 +166,39 @@ export default function Profile() {
               </button>
             </>
           ) : (
-            <form>This is the form we all looking for</form>
+            <>
+              <input
+                type="text"
+                className="mt-4 w-full max-w-xs bg-white/10 text-3xl font-extrabold text-white 
+                 drop-shadow px-4 py-2 rounded-xl outline-none 
+                 focus:ring-2 focus:ring-cyan-400 text-center"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+              />
+
+              <div className="my-6 h-px bg-white/20" />
+
+              <div className="flex gap-4 justify-center">
+                <button
+                  className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl 
+                   text-white font-semibold shadow cursor-pointer"
+                  onClick={() => {
+                    // TODO: save logic here
+                    setEditProfile(false);
+                  }}
+                >
+                  Save
+                </button>
+
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl 
+                   text-white font-semibold shadow cursor-pointer"
+                  onClick={() => setEditProfile(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>
