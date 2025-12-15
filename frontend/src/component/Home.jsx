@@ -88,6 +88,12 @@ export default function Home() {
             <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:150ms]"></span>
             <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:300ms]"></span>
           </div>
+        ) : movies.length === 0 && searchParams.get("query") ? (
+          <div className="flex items-center justify-center h-[calc(100svh-120px)]">
+            <p className="text-red-500 text-2xl md:text-4xl text-nowrap">
+              No movies by query {searchParams.get("query")} Found!!
+            </p>
+          </div>
         ) : (
           movies.map((movie, i) => {
             return (
