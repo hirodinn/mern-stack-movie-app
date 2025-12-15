@@ -143,7 +143,11 @@ export default function Profile() {
             </div>
           ))
         ) : (
-          <div className="w-14 h-14 rounded-full animate-spin border-2 border-blue-900 border-b-blue-300 mx-auto"></div>
+          <div className="flex items-center justify-center gap-2 h-full w-full">
+            <span className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></span>
+            <span className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:150ms]"></span>
+            <span className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:300ms]"></span>
+          </div>
         )}
       </div>
 
