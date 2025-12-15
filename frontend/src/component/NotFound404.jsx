@@ -2,12 +2,16 @@ import { useNavigate } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { Theme } from "./Theme";
 
 const NotFound404 = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-custom text-white overflow-hidden transition-colors duration-500">
+      <div className="fixed left-2 top-2">
+        <Theme />
+      </div>
       <title>Page Not Found</title>
 
       <svg
