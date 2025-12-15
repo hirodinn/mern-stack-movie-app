@@ -83,10 +83,10 @@ export default function Home() {
       <Header />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {isLoading ? (
-          <div class="flex items-center justify-center gap-2 h-[calc(100svh-120px)]">
-            <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></span>
-            <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:150ms]"></span>
-            <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:300ms]"></span>
+          <div className="flex items-center justify-center gap-2 h-[calc(100svh-120px)]">
+            <span className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></span>
+            <span className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:150ms]"></span>
+            <span className="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:300ms]"></span>
           </div>
         ) : movies.length === 0 && searchParams.get("query") ? (
           <div className="flex items-center justify-center h-[calc(100svh-120px)]">
