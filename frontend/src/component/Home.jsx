@@ -8,11 +8,13 @@ import Header from "./Header";
 export default function Home() {
   const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false;)
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo.user);
 
   const apiKey = import.meta.env.VITE_XMDB_KEY;
   useEffect(() => {
+    setIsLoading(true);
     const loadMovies = async () => {
       try {
         const query = searchParams.get("query");
@@ -46,6 +48,8 @@ export default function Home() {
         setMovies(result);
       } catch (ex) {
         console.log(ex);
+      } finally{
+        setIsLoading(false);
       }
     };
     loadMovies();
