@@ -8,7 +8,7 @@ import Header from "./Header";
 export default function Home() {
   const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false;)
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo.user);
 
@@ -48,7 +48,7 @@ export default function Home() {
         setMovies(result);
       } catch (ex) {
         console.log(ex);
-      } finally{
+      } finally {
         setIsLoading(false);
       }
     };
@@ -82,7 +82,13 @@ export default function Home() {
     <main className="bg-custom text-white pt-30 min-h-screen">
       <Header />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
-        {user &&
+        {isLoading ? (
+          <div class="flex items-center justify-center gap-2 h-[calc(100svh-120px)]">
+            <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></span>
+            <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:150ms]"></span>
+            <span class="w-3 h-3 bg-blue-500 rounded-full animate-bounce [animation-delay:300ms]"></span>
+          </div>
+        ) : (
           movies.map((movie, i) => {
             return (
               <div
@@ -122,7 +128,8 @@ export default function Home() {
                 </div>
               </div>
             );
-          })}
+          })
+        )}
       </div>
     </main>
   );
