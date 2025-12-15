@@ -102,7 +102,10 @@ export default function Home() {
                 className="w-65 h-155 bg-white/10 backdrop-blur-md border border-white/20
  flex flex-col p-4 rounded-2xl"
               >
-                <img src={movie.poster_url} className="h-[60%] object-cover" />
+                <img
+                  src={movie.poster_url}
+                  className="h-[60%] object-cover rounded-t-2xl"
+                />
                 <div className="flex-1">
                   <h4 className="my-2 font-bold text-2xl">
                     {movie.title.length < 30
