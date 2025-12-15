@@ -7,8 +7,9 @@ const NotFound404 = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#0f172a] via-[#071025] to-[#001219] text-white overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-custom text-white overflow-hidden transition-colors duration-500">
       <title>Page Not Found</title>
+
       <svg
         className="pointer-events-none absolute -top-24 -left-24 opacity-20 w-96 h-96 transform rotate-12"
         viewBox="0 0 600 600"
@@ -35,7 +36,7 @@ const NotFound404 = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 120, damping: 14 }}
-              className="w-56 h-56 md:w-72 md:h-72 bg-linear-to-br from-[#06b6d4] to-[#7c3aed] rounded-2xl flex items-center justify-center shadow-lg"
+              className="w-56 h-56 md:w-72 md:h-72 bg-custom rounded-2xl flex items-center justify-center shadow-lg transition-colors duration-500"
             >
               <motion.div
                 animate={{ rotate: [0, 6, -6, 0] }}
