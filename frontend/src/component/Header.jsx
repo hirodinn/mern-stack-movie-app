@@ -52,22 +52,49 @@ export default function Header() {
           search
         </button>
       </form>
-      <div className="flex flex-col h-[95%] justify-around">
+      <div className="flex flex-col gap-2">
         <button
-          className="bg-red-600 rounded cursor-pointer py-1 px-6 mr-2"
           onClick={logout}
+          className="
+      inline-flex items-center gap-2
+      px-3 py-1.5 rounded-lg
+      text-xs font-semibold
+      border
+      transition-all duration-200
+      active:scale-95
+
+      bg-[var(--btn-bg)]
+      text-[var(--btn-danger-text)]
+      border-[var(--btn-danger-border)]
+      hover:bg-[color-mix(in_oklab,var(--btn-danger-border)_15%,var(--btn-bg))]
+    "
         >
-          Log out
+          <i className="fa-solid fa-right-from-bracket text-xs" />
+          <span>Log out</span>
         </button>
+
         <button
-          className="bg-green-600 rounded cursor-pointer py-1 px-6 mr-2"
           onClick={() => {
             setTimeout(() => {
               navigate("/profile");
             }, 100);
           }}
+          className="
+      inline-flex items-center gap-2
+      px-3 py-1.5 rounded-lg
+      text-xs font-semibold
+      border
+      transition-all duration-200
+      active:scale-95
+
+      bg-[var(--btn-bg)]
+      text-[var(--btn-success-text)]
+      border-[var(--btn-success-border)]
+      hover:bg-[color-mix(in_oklab,var(--btn-success-border)_15%,var(--btn-bg))]
+    "
         >
-          Profile
+          <i className="fa-solid fa-user text-xs" />
+          <span>Profile</span>
         </button>
       </div>
     </header>
