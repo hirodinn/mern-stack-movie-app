@@ -63,9 +63,9 @@ export default function Header() {
       transition-all duration-200
       active:scale-95
 
-      bg-[var(--btn-bg)]
-      text-[var(--btn-danger-text)]
-      border-[var(--btn-danger-border)]
+      bg-(--btn-bg)
+      text-(--btn-danger-text)
+      border-(--btn-danger-border)
       hover:bg-[color-mix(in_oklab,var(--btn-danger-border)_15%,var(--btn-bg))]
     "
         >
@@ -87,9 +87,9 @@ export default function Header() {
       transition-all duration-200
       active:scale-95
 
-      bg-[var(--btn-bg)]
-      text-[var(--btn-success-text)]
-      border-[var(--btn-success-border)]
+      bg-(--btn-bg)
+      text-(--btn-success-text)
+      border-(--btn-success-border)
       hover:bg-[color-mix(in_oklab,var(--btn-success-border)_15%,var(--btn-bg))]
     "
         >
