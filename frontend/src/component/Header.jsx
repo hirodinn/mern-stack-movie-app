@@ -56,6 +56,7 @@ export default function Header() {
         <button
           onClick={logout}
           className="
+          cursor-pointer
       inline-flex items-center gap-2
       px-3 py-1.5 rounded-lg
       text-xs font-semibold
@@ -80,6 +81,7 @@ export default function Header() {
             }, 100);
           }}
           className="
+                    cursor-pointer
       inline-flex items-center gap-2
       px-3 py-1.5 rounded-lg
       text-xs font-semibold
