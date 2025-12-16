@@ -6,6 +6,18 @@
   --gradient-start: oklch(70.7% 0.165 254.624); /* blue-400 */
   --gradient-middle: oklch(80.9% 0.105 251.813); /* blue-300 */
   --gradient-end: oklch(91.7% 0.08 205.041); /* cyan-200 */
+
+  /* UI colors */
+
+  --btn-bg: oklch(97% 0.01 250);
+  --btn-border: oklch(85% 0.02 250);
+  --btn-text: oklch(45% 0.15 250);
+
+  --btn-danger-text: oklch(55% 0.22 25);
+  --btn-danger-border: oklch(75% 0.15 25);
+
+  --btn-success-text: oklch(55% 0.2 150);
+  --btn-success-border: oklch(75% 0.15 150);
 }
 
 /* Dark mode gradient (example, can be any colors) */
@@ -13,6 +25,18 @@
   --gradient-start: #1e293b; /* gray-800 */
   --gradient-middle: #334155; /* gray-700 */
   --gradient-end: #0f172a; /* gray-900 */
+
+  /* DARK UI colors */
+
+  --btn-bg: oklch(18% 0.01 250);
+  --btn-border: oklch(35% 0.02 250);
+  --btn-text: oklch(88% 0.02 250);
+
+  --btn-danger-text: oklch(75% 0.22 25);
+  --btn-danger-border: oklch(45% 0.15 25);
+
+  --btn-success-text: oklch(75% 0.2 150);
+  --btn-success-border: oklch(45% 0.15 150);
 }
 
 /* Custom utility using the variables */
