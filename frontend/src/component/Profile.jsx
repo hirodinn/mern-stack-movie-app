@@ -9,6 +9,8 @@ export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo.user);
   const [editProfile, setEditProfile] = useState(false);
+  const fileInputRef = useRef(null);
+  const [preview, setPreview] = useState(user.avatar);
   const inputRef = useRef(null);
   const [message, setMessage] = useState(null);
   const [editName, setEditName] = useState(user.name);
@@ -96,6 +98,10 @@ export default function Profile() {
     }
   }
 
+  async function handleProfileChange() {
+    console.log("clicked");
+  }
+
   return (
     <div className="bg-custom min-h-screen w-full box-border text-white flex items-center">
       <title>Profile</title>
@@ -153,19 +159,19 @@ export default function Profile() {
 
       <div className="min-h-screen flex items-center justify-center p-6 shrink-0 w-70 md:w-88 fixed right-0 top-0">
         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center">
-          <div className="flex justify-center">
-            <img
-              src={
-                user?.avatar
-                  ? `http://localhost:3000${user.avatar}`
-                  : "https://ui-avatars.com/api/?name=User&background=22d3ee&color=fff"
-              }
-              alt="Profile"
-              className="w-32 h-32 rounded-full border-4 border-cyan-400 shadow-lg object-cover"
-            />
-          </div>
           {!editProfile ? (
             <>
+              <div className="flex justify-center">
+                <img
+                  src={
+                    user?.avatar
+                      ? `http://localhost:3000${user.avatar}`
+                      : "https://ui-avatars.com/api/?name=User&background=22d3ee&color=fff"
+                  }
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full border-4 border-cyan-400 shadow-lg object-cover"
+                />
+              </div>
               <h2 className="mt-4 text-3xl font-extrabold text-white drop-shadow">
                 {user?.name}
               </h2>
@@ -203,6 +209,22 @@ export default function Profile() {
             </>
           ) : (
             <form onSubmit={changeProfile}>
+              <img
+                src={`http://localhost:3000${preview}`}
+                alt="Profile"
+                className="w-32 h-32 rounded-full object-cover cursor-pointer 
+             ring-4 ring-cyan-400 hover:opacity-80 transition mx-auto"
+                onClick={() => fileInputRef.current.click()}
+              />
+
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleProfileChange}
+              />
+
               <input
                 type="text"
                 className="mt-4 w-full max-w-xs bg-white/10 text-3xl font-extrabold text-white 
