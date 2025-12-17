@@ -111,7 +111,7 @@ export default function Profile() {
             >
               <img
                 src={movie.poster_url}
-                className="h-[60%] object-cover rounded-lg"
+                className="h-[60%] object-cover rounded-t-lg"
               />
               <div className="flex-1 mt-2">
                 <h4 className="font-bold text-2xl">

@@ -104,7 +104,7 @@ export default function Home() {
               >
                 <img
                   src={movie.poster_url}
-                  className="h-[60%] object-cover rounded-t-2xl"
+                  className="h-[60%] object-cover rounded-t-lg"
                 />
                 <div className="flex-1">
                   <h4 className="my-2 font-bold text-2xl">
