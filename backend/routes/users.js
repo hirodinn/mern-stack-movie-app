@@ -168,4 +168,44 @@ route.put("/", async (req, res) => {
   await user.save();
   res.send(user);
 });
+
+route.put("/avatar", upload.single("avatar"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.avatar) {
+      const oldPath = path.join(".", user.avatar);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+      }
+    }
+
+    const uploadsDir = "uploads";
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+
+    const filename = Date.now() + path.extname(req.file.originalname);
+    const filePath = path.join(uploadsDir, filename);
+
+    fs.writeFileSync(filePath, req.file.buffer);
+
+    user.avatar = `/uploads/${filename}`;
+    await user.save();
+
+    res.json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Avatar update failed" });
+  }
+});
+
 export default route;
