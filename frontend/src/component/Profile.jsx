@@ -93,9 +93,11 @@ export default function Profile() {
       dispatch(add(u.data));
       setTimeout(() => {
         setEditProfile(false);
-        setMessage(null);
       }, 500);
     }
+    setTimeout(() => {
+      setMessage(null);
+    }, 500);
   }
 
   async function handleProfileChange(e) {
@@ -122,7 +124,7 @@ export default function Profile() {
 
       dispatch(add(res.data.user));
 
-      setPreview(`http://localhost:3000${res.data.user.avatar}`);
+      setPreview(res.data.user.avatar);
 
       Message("Profile picture updated", "green");
     } catch (err) {
@@ -131,6 +133,9 @@ export default function Profile() {
       setPreview(user.avatar);
       Message("Failed to update profile picture", "red");
     }
+    setTimeout(() => {
+      setMessage(null);
+    }, 1000);
   }
 
   return (
