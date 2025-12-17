@@ -98,8 +98,39 @@ export default function Profile() {
     }
   }
 
-  async function handleProfileChange() {
-    console.log("clicked");
+  async function handleProfileChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const tempPreview = URL.createObjectURL(file);
+    setPreview(tempPreview);
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      const res = await axios.put(
+        "http://localhost:3000/api/users/avatar",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      dispatch(add(res.data.user));
+
+      setPreview(`http://localhost:3000${res.data.user.avatar}`);
+
+      Message("Profile picture updated", "green");
+    } catch (err) {
+      console.error(err);
+
+      setPreview(user.avatar);
+      Message("Failed to update profile picture", "red");
+    }
   }
 
   return (
