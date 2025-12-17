@@ -174,8 +174,11 @@ route.put("/avatar", upload.single("avatar"), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-
-    const user = await User.findById(req.user._id);
+    const token = req.cookies.token;
+    if (!token)
+      return res.status(401).send("Access denied. No Token Provided!");
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    const user = await User.findById(decoded._id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
