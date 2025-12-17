@@ -235,7 +235,10 @@ export default function Profile() {
                 </button>
               </div>
               <button
-                className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 mt-3 rounded-xl text-white font-semibold shadow cursor-pointer"
+                className="bg-linear-to-r from-cyan-500 to-blue-500 
+             hover:from-cyan-600 hover:to-blue-600
+             transition px-5 py-2 mt-3 rounded-xl 
+             text-white font-semibold shadow cursor-pointer"
                 onClick={() => {
                   setEditProfile(true);
                 }}
