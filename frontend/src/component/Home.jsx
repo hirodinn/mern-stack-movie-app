@@ -79,7 +79,7 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-custom text-white pt-30 min-h-screen">
+    <main className="bg-custom text-white pt-25 min-h-screen">
       <Header />
       <div className="flex flex-wrap justify-evenly w-[90%] max-w-[1200px] mx-auto gap-3 space-y-3">
         {isLoading ? (
