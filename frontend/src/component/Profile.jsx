@@ -10,7 +10,7 @@ export default function Profile() {
   const user = useSelector((state) => state.userInfo.user);
   const [editProfile, setEditProfile] = useState(false);
   const fileInputRef = useRef(null);
-  const [preview, setPreview] = useState(user.avatar);
+  const [preview, setPreview] = useState(`http://localhost:3000${user.avatar}`);
   const inputRef = useRef(null);
   const [message, setMessage] = useState(null);
   const [editName, setEditName] = useState(user.name);
@@ -106,6 +106,11 @@ export default function Profile() {
 
     const tempPreview = URL.createObjectURL(file);
     setPreview(tempPreview);
+  }
+
+  function cancelEdit() {
+    setEditProfile(false);
+    setPreview(`http://localhost:3000${user.avatar}`);
   }
 
   return (
@@ -258,7 +263,7 @@ export default function Profile() {
                 <button
                   className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl 
                    text-white font-semibold shadow cursor-pointer"
-                  onClick={() => setEditProfile(false)}
+                  onClick={cancelEdit}
                   type="button"
                 >
                   Cancel
