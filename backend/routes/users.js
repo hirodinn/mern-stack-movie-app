@@ -154,51 +154,49 @@ route.post("/logout", (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
-route.put("/", async (req, res) => {
-  res.set({
-    "Cache-Control": "no-store",
-    Pragma: "no-cache",
-    Expires: "0",
-  });
-  const token = req.cookies.token;
-  if (!token) return res.status(401).send("Access denied. No Token Provided!");
-  const decoded = jwt.verify(token, process.env.JWT_KEY);
-  const user = await User.findById(decoded._id).select("-password");
-  user.name = req.body.name;
-  await user.save();
-  res.send(user);
-});
-
-route.put("/avatar", upload.single("avatar"), async (req, res) => {
+route.put("/profile", upload.single("avatar"), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+    // 1️⃣ AUTH
     const token = req.cookies.token;
-    if (!token)
-      return res.status(401).send("Access denied. No Token Provided!");
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_KEY);
     const user = await User.findById(decoded._id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (user.avatar) {
-      const oldPath = path.join(".", user.avatar);
-      if (fs.existsSync(oldPath)) {
-        fs.unlinkSync(oldPath);
-      }
+    // 2️⃣ UPDATE NAME (IF PROVIDED)
+    if (req.body.name && req.body.name.length >= 5) {
+      user.name = req.body.name;
     }
 
-    const uploadsDir = "uploads";
-    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+    // 3️⃣ UPDATE AVATAR (ONLY IF FILE EXISTS)
+    if (req.file) {
+      // delete old avatar
+      if (user.avatar) {
+        const oldPath = path.join(".", user.avatar);
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
 
-    const filename = Date.now() + path.extname(req.file.originalname);
-    const filePath = path.join(uploadsDir, filename);
+      // ensure uploads folder
+      if (!fs.existsSync("uploads")) {
+        fs.mkdirSync("uploads");
+      }
 
-    fs.writeFileSync(filePath, req.file.buffer);
+      const filename = Date.now() + path.extname(req.file.originalname);
+      const filePath = path.join("uploads", filename);
 
-    user.avatar = `/uploads/${filename}`;
+      fs.writeFileSync(filePath, req.file.buffer);
+
+      user.avatar = `/uploads/${filename}`;
+    }
+
+    // 4️⃣ SAVE USER
     await user.save();
 
     res.json({
@@ -207,7 +205,7 @@ route.put("/avatar", upload.single("avatar"), async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Avatar update failed" });
+    res.status(500).json({ message: "Profile update failed" });
   }
 });
 
