@@ -89,7 +89,10 @@ export default function Profile() {
 
   async function changeProfile(e) {
     e.preventDefault();
-
+    setTimeout(() => {
+      setNameError(null);
+      setEmailError(null);
+    }, 1000);
     if (!validateForm()) return;
     const formData = new FormData();
 
@@ -115,13 +118,12 @@ export default function Profile() {
       dispatch(add(res.data.user));
       setEditProfile(false);
     } catch (ex) {
-      console.log(ex);
       Message(ex.response.data.message, "red");
+      neutralize();
     } finally {
       setTimeout(() => {
         setMessage(null);
       }, 1000);
-      neutralize();
     }
   }
 
