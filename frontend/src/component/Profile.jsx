@@ -16,6 +16,8 @@ export default function Profile() {
   const [message, setMessage] = useState(null);
   const [editName, setEditName] = useState(user.name);
   const [editEmail, setEditEmail] = useState(user.email);
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [favMovies, setFavMovies] = useState(null);
   const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_XMDB_KEY;
@@ -88,6 +90,7 @@ export default function Profile() {
   async function changeProfile(e) {
     e.preventDefault();
 
+    if (!validateForm()) return;
     const formData = new FormData();
 
     if (editName !== user.name) {
@@ -135,6 +138,33 @@ export default function Profile() {
     setEditProfile(false);
     neutralize();
   }
+  const validateForm = () => {
+    let valid = true;
+
+    // Name validation
+    if (!editName.trim()) {
+      setNameError("Name is required");
+      valid = false;
+    } else if (editName.length < 5) {
+      setNameError("Name should be at least 5 characters");
+      valid = false;
+    } else {
+      setNameError("");
+    }
+    if (!editEmail.trim()) {
+      setEmailError("Email is required");
+      valid = false;
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(editEmail)) {
+        setEmailError("Invalid email format");
+        valid = false;
+      } else {
+        setEmailError("");
+      }
+    }
+    return valid;
+  };
 
   return (
     <div className="bg-custom min-h-screen w-full box-border text-white flex items-center">
@@ -274,6 +304,7 @@ export default function Profile() {
                 onChange={(e) => setEditName(e.target.value)}
                 ref={inputRef}
               />
+              {nameError && <p className="text-red-500 mt-2">{nameError}</p>}
 
               {/* EMAIL (OPTIONAL – REMOVE IF NOT NEEDED) */}
               {editEmail !== undefined && (
@@ -287,6 +318,7 @@ export default function Profile() {
                   onChange={(e) => setEditEmail(e.target.value)}
                 />
               )}
+              {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
 
               {/* MESSAGE SLOT (STABLE HEIGHT) */}
               <div className="mt-2 min-h-5">{message}</div>
