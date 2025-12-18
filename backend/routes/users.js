@@ -168,22 +168,27 @@ route.put("/profile", upload.single("avatar"), async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // 2️⃣ UPDATE NAME (IF PROVIDED)
+    // 2️⃣ UPDATE NAME (OPTIONAL)
     if (req.body.name && req.body.name.length >= 5) {
       user.name = req.body.name;
     }
 
-    // 3️⃣ UPDATE AVATAR (ONLY IF FILE EXISTS)
+    // 3️⃣ UPDATE EMAIL (OPTIONAL + UNIQUE)
+    if (req.body.email && req.body.email !== user.email) {
+      const emailExists = await User.findOne({ email: req.body.email });
+      if (emailExists) {
+        return res.status(400).json({ message: "Email already in use" });
+      }
+      user.email = req.body.email;
+    }
+
+    // 4️⃣ UPDATE AVATAR (OPTIONAL)
     if (req.file) {
-      // delete old avatar
       if (user.avatar) {
         const oldPath = path.join(".", user.avatar);
-        if (fs.existsSync(oldPath)) {
-          fs.unlinkSync(oldPath);
-        }
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
       }
 
-      // ensure uploads folder
       if (!fs.existsSync("uploads")) {
         fs.mkdirSync("uploads");
       }
@@ -196,7 +201,7 @@ route.put("/profile", upload.single("avatar"), async (req, res) => {
       user.avatar = `/uploads/${filename}`;
     }
 
-    // 4️⃣ SAVE USER
+    // 5️⃣ SAVE
     await user.save();
 
     res.json({
