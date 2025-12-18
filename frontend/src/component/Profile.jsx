@@ -104,7 +104,7 @@ export default function Profile() {
     setEditProfile(false);
   }
 
-  async function handleProfileChange(e) {
+  function handleProfileChange(e) {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -115,6 +115,7 @@ export default function Profile() {
 
   function cancelEdit() {
     setEditProfile(false);
+    setSelectedFile(null);
     setPreview(`http://localhost:3000${user.avatar}`);
   }
 
