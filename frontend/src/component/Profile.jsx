@@ -9,6 +9,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo.user);
   const [editProfile, setEditProfile] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(`http://localhost:3000${user.avatar}`);
   const inputRef = useRef(null);
@@ -79,25 +80,28 @@ export default function Profile() {
 
   async function changeProfile(e) {
     e.preventDefault();
-    if (editName.length < 5) {
-      Message("name should be at least 5 characters", "red");
-    } else {
-      Message("Name updated Successfully", "green");
-      const u = await axios.put(
-        `http://localhost:3000/api/users`,
-        {
-          name: editName,
-        },
-        { withCredentials: true }
-      );
-      dispatch(add(u.data));
-      setTimeout(() => {
-        setEditProfile(false);
-      }, 500);
+
+    const formData = new FormData();
+
+    // only append if changed
+    if (editName !== user.name) {
+      formData.append("name", editName);
     }
-    setTimeout(() => {
-      setMessage(null);
-    }, 500);
+
+    if (selectedFile) {
+      formData.append("avatar", selectedFile);
+    }
+
+    if (![...formData.entries()].length) return;
+
+    const res = await axios.put(
+      "http://localhost:3000/api/users/profile",
+      formData,
+      { withCredentials: true }
+    );
+
+    dispatch(add(res.data.user));
+    setEditProfile(false);
   }
 
   async function handleProfileChange(e) {
@@ -105,6 +109,7 @@ export default function Profile() {
     if (!file) return;
 
     const tempPreview = URL.createObjectURL(file);
+    setSelectedFile(file);
     setPreview(tempPreview);
   }
 
