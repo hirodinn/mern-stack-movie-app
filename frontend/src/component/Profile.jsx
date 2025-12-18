@@ -15,6 +15,7 @@ export default function Profile() {
   const inputRef = useRef(null);
   const [message, setMessage] = useState(null);
   const [editName, setEditName] = useState(user.name);
+  const [editEmail, setEditEmail] = useState(user.email);
   const [favMovies, setFavMovies] = useState(null);
   const navigate = useNavigate();
   const apiKey = import.meta.env.VITE_XMDB_KEY;
@@ -83,9 +84,12 @@ export default function Profile() {
 
     const formData = new FormData();
 
-    // only append if changed
     if (editName !== user.name) {
       formData.append("name", editName);
+    }
+
+    if (editEmail !== user.email) {
+      formData.append("email", editEmail);
     }
 
     if (selectedFile) {
@@ -228,12 +232,14 @@ export default function Profile() {
               </button>
             </>
           ) : (
-            <form onSubmit={changeProfile}>
+            <form onSubmit={changeProfile} className="text-center">
+              {/* AVATAR */}
               <img
-                src={`${preview}`}
+                src={preview}
                 alt="Profile"
-                className="w-32 h-32 rounded-full object-cover cursor-pointer 
-             ring-4 ring-cyan-400 hover:opacity-80 transition mx-auto"
+                className="w-32 h-32 rounded-full border-4 border-cyan-400 
+               shadow-lg object-cover cursor-pointer 
+               hover:opacity-80 transition mx-auto"
                 onClick={() => fileInputRef.current.click()}
               />
 
@@ -245,6 +251,7 @@ export default function Profile() {
                 onChange={handleProfileChange}
               />
 
+              {/* NAME */}
               <input
                 type="text"
                 className="mt-4 w-full max-w-xs bg-white/10 text-3xl font-extrabold text-white 
@@ -254,21 +261,41 @@ export default function Profile() {
                 onChange={(e) => setEditName(e.target.value)}
                 ref={inputRef}
               />
-              {message}
+
+              {/* EMAIL (OPTIONAL – REMOVE IF NOT NEEDED) */}
+              {editEmail !== undefined && (
+                <input
+                  type="email"
+                  className="mt-2 text-white/80 text-sm break-all
+                 bg-transparent text-center outline-none
+                 focus:ring-2 focus:ring-cyan-400 rounded-xl
+                 px-4 py-1 mx-auto block"
+                  value={editEmail}
+                  onChange={(e) => setEditEmail(e.target.value)}
+                />
+              )}
+
+              {/* MESSAGE SLOT (STABLE HEIGHT) */}
+              <div className="mt-2 min-h-5">{message}</div>
+
+              {/* DIVIDER */}
               <div className="my-6 h-px bg-white/20" />
 
+              {/* BUTTONS */}
               <div className="flex gap-4 justify-center">
                 <button
-                  className="bg-cyan-500 hover:bg-cyan-600 transition px-5 py-2 rounded-xl 
-                   text-white font-semibold shadow cursor-pointer"
+                  className="bg-cyan-500 hover:bg-cyan-600 transition 
+                 px-5 py-2 rounded-xl 
+                 text-white font-semibold shadow cursor-pointer"
                   type="submit"
                 >
                   Save
                 </button>
 
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 transition px-5 py-2 rounded-xl 
-                   text-white font-semibold shadow cursor-pointer"
+                  className="bg-blue-500 hover:bg-blue-600 transition 
+                 px-5 py-2 rounded-xl 
+                 text-white font-semibold shadow cursor-pointer"
                   onClick={cancelEdit}
                   type="button"
                 >
