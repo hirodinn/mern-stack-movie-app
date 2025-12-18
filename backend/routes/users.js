@@ -207,6 +207,7 @@ route.put("/profile", upload.single("avatar"), async (req, res) => {
     res.json({
       success: true,
       user,
+      message: "Profile Changed Successfully",
     });
   } catch (err) {
     console.error(err);

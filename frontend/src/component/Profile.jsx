@@ -116,7 +116,10 @@ export default function Profile() {
         { withCredentials: true }
       );
       dispatch(add(res.data.user));
-      setEditProfile(false);
+      Message(res.data.message, "green");
+      setTimeout(() => {
+        setEditProfile(false);
+      }, 1000);
     } catch (ex) {
       Message(ex.response.data.message, "red");
       neutralize();
