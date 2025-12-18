@@ -79,6 +79,12 @@ export default function Profile() {
     setMessage(<p className={`text-${color}-700 mt-6`}>{message}</p>);
   }
 
+  function neutralize() {
+    setEditEmail(user.email);
+    setEditName(user.name);
+    setPreview(`http://localhost:3000${user.avatar}`);
+  }
+
   async function changeProfile(e) {
     e.preventDefault();
 
@@ -97,15 +103,23 @@ export default function Profile() {
     }
 
     if (![...formData.entries()].length) return;
-
-    const res = await axios.put(
-      "http://localhost:3000/api/users/profile",
-      formData,
-      { withCredentials: true }
-    );
-
-    dispatch(add(res.data.user));
-    setEditProfile(false);
+    try {
+      const res = await axios.put(
+        "http://localhost:3000/api/users/profile",
+        formData,
+        { withCredentials: true }
+      );
+      dispatch(add(res.data.user));
+      setEditProfile(false);
+    } catch (ex) {
+      console.log(ex);
+      Message(ex.response.data.message, "red");
+    } finally {
+      setTimeout(() => {
+        setMessage(null);
+      }, 1000);
+      neutralize();
+    }
   }
 
   function handleProfileChange(e) {
@@ -119,8 +133,7 @@ export default function Profile() {
 
   function cancelEdit() {
     setEditProfile(false);
-    setSelectedFile(null);
-    setPreview(`http://localhost:3000${user.avatar}`);
+    neutralize();
   }
 
   return (
