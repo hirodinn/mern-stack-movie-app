@@ -106,36 +106,6 @@ export default function Profile() {
 
     const tempPreview = URL.createObjectURL(file);
     setPreview(tempPreview);
-
-    const formData = new FormData();
-    formData.append("avatar", file);
-
-    try {
-      const res = await axios.put(
-        "http://localhost:3000/api/users/avatar",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      dispatch(add(res.data.user));
-
-      setPreview(res.data.user.avatar);
-
-      Message("Profile picture updated", "green");
-    } catch (err) {
-      console.error(err);
-
-      setPreview(user.avatar);
-      Message("Failed to update profile picture", "red");
-    }
-    setTimeout(() => {
-      setMessage(null);
-    }, 1000);
   }
 
   return (
@@ -249,7 +219,7 @@ export default function Profile() {
           ) : (
             <form onSubmit={changeProfile}>
               <img
-                src={`http://localhost:3000${preview}`}
+                src={`${preview}`}
                 alt="Profile"
                 className="w-32 h-32 rounded-full object-cover cursor-pointer 
              ring-4 ring-cyan-400 hover:opacity-80 transition mx-auto"
