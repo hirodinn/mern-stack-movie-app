@@ -11,9 +11,7 @@ export default function Profile() {
   const [editProfile, setEditProfile] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
-  const [preview, setPreview] = useState(
-    `${import.meta.env.VITE_API_URL}${user.avatar}`
-  );
+  const [preview, setPreview] = useState(user.avatar);
   const inputRef = useRef(null);
   const [message, setMessage] = useState(null);
   const [editName, setEditName] = useState(user.name);
