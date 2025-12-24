@@ -5,8 +5,9 @@ import cookieParser from "cookie-parser";
 import errorHandler from "../middleware/error.js";
 export default function (app) {
   const allowedOrigins = [
-    "http://localhost:5173", // your local frontend
-    "https://mern-stack-movie-app.vercel.app", // deployed frontend
+    "http://localhost:5173",
+    "https://mern-stack-movie-app.vercel.app", // keep this if valid
+    process.env.ALLOWED_ORIGIN, // Add this for flexibility
   ];
   app.use(
     cors({
