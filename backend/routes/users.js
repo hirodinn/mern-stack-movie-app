@@ -7,6 +7,7 @@ import path from "path";
 import logger from "../logger.js";
 import { upload } from "../middleware/upload.js";
 import uploadToCloudinary from "../utils/uploadToCloudinary.js";
+import deleteFromCloudinary from "../utils/deleteFromCloudinary.js";
 
 import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
@@ -164,6 +165,9 @@ route.put("/profile", upload.single("avatar"), async (req, res) => {
     // 4️⃣ UPDATE AVATAR (OPTIONAL)
     if (req.file) {
       try {
+        if (user.avatar) {
+          await deleteFromCloudinary(user.avatar);
+        }
         const result = await uploadToCloudinary(req.file.buffer);
         user.avatar = result.secure_url;
       } catch (uploadError) {
