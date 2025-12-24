@@ -5,8 +5,8 @@ import startRoute from "./startup/routes.js";
 
 const app = express();
 
-startDb();
 startConfig();
+startDb();
 startRoute(app);
 
 const port = process.env.PORT || 3000;
