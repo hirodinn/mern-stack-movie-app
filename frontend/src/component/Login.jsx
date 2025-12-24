@@ -17,7 +17,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const user = await axios.post(
-        "http://localhost:3000/api/users/login",
+        `${import.meta.env.VITE_API_URL}/api/users/login`,
         {
           email,
           password,
@@ -26,9 +26,12 @@ export default function Login() {
       );
       if (user.data) {
         setSuccess(user.data.message);
-        const u = await axios.get("http://localhost:3000/api/users/me", {
-          withCredentials: true,
-        });
+        const u = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/users/me`,
+          {
+            withCredentials: true,
+          }
+        );
         setTimeout(() => {
           dispatch(add(u.data));
         }, 300);

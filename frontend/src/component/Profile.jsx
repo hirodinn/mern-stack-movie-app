@@ -11,7 +11,9 @@ export default function Profile() {
   const [editProfile, setEditProfile] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
-  const [preview, setPreview] = useState(`http://localhost:3000${user.avatar}`);
+  const [preview, setPreview] = useState(
+    `${import.meta.env.VITE_API_URL}${user.avatar}`
+  );
   const inputRef = useRef(null);
   const [message, setMessage] = useState(null);
   const [editName, setEditName] = useState(user.name);
@@ -24,7 +26,7 @@ export default function Profile() {
 
   useEffect(() => {
     const loadFav = async () => {
-      const requests = user.favMovies.map((id) =>
+      const requests = (user.favMovies || []).map((id) =>
         axios.get(`https://xmdbapi.com/api/v1/movies/${id}?apiKey=${apiKey}`)
       );
       const data = await Promise.all(requests);
@@ -49,7 +51,7 @@ export default function Profile() {
   async function removeFav(id) {
     try {
       const user = await axios.post(
-        `http://localhost:3000/api/users/favMovies`,
+        `${import.meta.env.VITE_API_URL}/api/users/favMovies`,
         {
           movieId: id,
         },
@@ -64,7 +66,7 @@ export default function Profile() {
   async function logout() {
     try {
       await axios.post(
-        "http://localhost:3000/api/users/logout",
+        `${import.meta.env.VITE_API_URL}/api/users/logout`,
         {},
         {
           withCredentials: true,
@@ -84,7 +86,7 @@ export default function Profile() {
   function neutralize() {
     setEditEmail(user.email);
     setEditName(user.name);
-    setPreview(`http://localhost:3000${user.avatar}`);
+    setPreview(`${import.meta.env.VITE_API_URL}${user.avatar}`);
   }
 
   async function changeProfile(e) {
@@ -111,7 +113,7 @@ export default function Profile() {
     if (![...formData.entries()].length) return;
     try {
       const res = await axios.put(
-        "http://localhost:3000/api/users/profile",
+        `${import.meta.env.VITE_API_URL}/api/users/profile`,
         formData,
         { withCredentials: true }
       );
@@ -234,7 +236,7 @@ export default function Profile() {
                 <img
                   src={
                     user?.avatar
-                      ? `http://localhost:3000${user.avatar}`
+                      ? `${import.meta.env.VITE_API_URL}${user.avatar}`
                       : "https://ui-avatars.com/api/?name=User&background=22d3ee&color=fff"
                   }
                   alt="Profile"

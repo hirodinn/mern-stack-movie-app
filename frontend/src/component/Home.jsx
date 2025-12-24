@@ -66,7 +66,7 @@ export default function Home() {
   async function toggleFav(id) {
     try {
       const user = await axios.post(
-        `http://localhost:3000/api/users/favMovies`,
+        `${import.meta.env.VITE_API_URL}/api/users/favMovies`,
         {
           movieId: id,
         },
@@ -127,7 +127,7 @@ export default function Home() {
                       toggleFav(movie.id);
                     }}
                   >
-                    {user.favMovies.includes(movie.id)
+                    {user.favMovies?.includes(movie.id)
                       ? "remove from fav"
                       : "add to fav"}
                   </div>

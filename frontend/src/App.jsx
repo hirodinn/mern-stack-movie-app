@@ -17,9 +17,12 @@ function App() {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const u = await axios.get("http://localhost:3000/api/users/me", {
-          withCredentials: true,
-        });
+        const u = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/users/me`,
+          {
+            withCredentials: true,
+          }
+        );
         dispatch(add(u.data));
       } catch (err) {
         console.log(err);

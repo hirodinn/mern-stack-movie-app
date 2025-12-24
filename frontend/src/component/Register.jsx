@@ -57,7 +57,7 @@ export default function Register() {
       }
 
       const user = await axios.post(
-        "http://localhost:3000/api/users",
+        `${import.meta.env.VITE_API_URL}/api/users`,
         formData,
         {
           withCredentials: true,
@@ -70,9 +70,12 @@ export default function Register() {
       if (user.data) {
         setSuccess(user.data.message);
 
-        const u = await axios.get("http://localhost:3000/api/users/me", {
-          withCredentials: true,
-        });
+        const u = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/users/me`,
+          {
+            withCredentials: true,
+          }
+        );
 
         setTimeout(() => {
           dispatch(add(u.data));
