@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: movie-rental-backend
+    runtime: node
+    root: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+
+  - type: static
+    name: movie-rental-frontend
+    runtime: static
+    root: frontend
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: movie-rental-backend
+          property: url
+      - key: VITE_XMDB_KEY
+        sync: false

@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
   favMovies: {
     type: Array,
     required: true,
+    default: [],
   },
   avatar: {
     type: String,
