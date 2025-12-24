@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import logger from "../logger.js";
 import { upload } from "../middleware/upload.js";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
@@ -13,59 +14,37 @@ const route = express.Router();
 
 route.post("/", upload.single("avatar"), async (req, res) => {
   try {
-    const { error } = validateNewUser(req.body);
-    if (error)
-      return res
-        .status(400)
-        .json({ success: false, message: error.details[0].message });
-
     const existingUser = await User.findOne({ email: req.body.email });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Email already exists" });
-    }
+    if (existingUser)
+      return res.status(400).json({ message: "Email already exists" });
 
-    let avatarPath = "";
+    let avatarUrl = "";
+
     if (req.file) {
-      const uploadsDir = path.join("uploads");
-      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
-
-      const filename = Date.now() + path.extname(req.file.originalname);
-      avatarPath = `/uploads/${filename}`;
-      const filePath = path.join(uploadsDir, filename);
-      fs.writeFileSync(filePath, req.file.buffer);
+      const result = await uploadToCloudinary(req.file.buffer);
+      avatarUrl = result.secure_url;
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const user = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
-      favMovies: req.body.favMovies,
-      avatar: avatarPath,
-    });
-
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-
-    const token = user.getAuthToken();
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000,
+      password: hashedPassword,
+      avatar: avatarUrl,
     });
 
     await user.save();
 
     res.json({
       success: true,
-      message: `Register successful, Welcome ${user.name}`,
+      message: "User registered",
+      avatar: avatarUrl,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -184,21 +163,13 @@ route.put("/profile", upload.single("avatar"), async (req, res) => {
 
     // 4️⃣ UPDATE AVATAR (OPTIONAL)
     if (req.file) {
-      if (user.avatar) {
-        const oldPath = path.join(".", user.avatar);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      try {
+        const result = await uploadToCloudinary(req.file.buffer);
+        user.avatar = result.secure_url;
+      } catch (uploadError) {
+        console.error("Cloudinary upload failed:", uploadError);
+        return res.status(500).json({ message: "Image upload failed" });
       }
-
-      if (!fs.existsSync("uploads")) {
-        fs.mkdirSync("uploads");
-      }
-
-      const filename = Date.now() + path.extname(req.file.originalname);
-      const filePath = path.join("uploads", filename);
-
-      fs.writeFileSync(filePath, req.file.buffer);
-
-      user.avatar = `/uploads/${filename}`;
     }
 
     // 5️⃣ SAVE
