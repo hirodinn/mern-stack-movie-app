@@ -232,11 +232,7 @@ export default function Profile() {
             <>
               <div className="flex justify-center">
                 <img
-                  src={
-                    user?.avatar
-                      ? `${import.meta.env.VITE_API_URL}${user.avatar}`
-                      : "https://ui-avatars.com/api/?name=User&background=22d3ee&color=fff"
-                  }
+                  src={user.avatar}
                   alt="Profile"
                   className="w-32 h-32 rounded-full border-4 border-cyan-400 shadow-lg object-cover"
                 />
