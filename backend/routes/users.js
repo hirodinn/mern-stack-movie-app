@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 import logger from "../logger.js";
 import { upload } from "../middleware/upload.js";
-import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
+import uploadToCloudinary from "../utils/uploadToCloudinary.js";
 
 import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
