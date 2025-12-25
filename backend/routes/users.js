@@ -8,6 +8,7 @@ import logger from "../logger.js";
 import { upload } from "../middleware/upload.js";
 import uploadToCloudinary from "../utils/uploadToCloudinary.js";
 import deleteFromCloudinary from "../utils/deleteFromCloudinary.js";
+import client from "../startup/redis.js";
 
 import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
@@ -58,7 +59,25 @@ route.get("/me", async (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
   const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+  // 1. Check Cache
+  const cacheKey = `user:${decoded._id}`;
+  const cachedUser = await client.get(cacheKey);
+
+  if (cachedUser) {
+    return res.send(JSON.parse(cachedUser));
+  }
+
+  // 2. Fetch from DB
   const user = await User.findById(decoded._id).select("-password");
+
+  // 3. Set Cache (Expiry: 1 hour = 3600 seconds)
+  if (user) {
+    await client.set(cacheKey, JSON.stringify(user), {
+      EX: 3600,
+    });
+  }
+
   logger.info({
     message: "Fetched logged-in user info",
     userId: user?._id || null,
@@ -178,6 +197,10 @@ route.put("/profile", upload.single("avatar"), async (req, res) => {
 
     // 5️⃣ SAVE
     await user.save();
+
+    // 6️⃣ INVALIDATE CACHE
+    const cacheKey = `user:${user._id}`;
+    await client.del(cacheKey);
 
     res.json({
       success: true,
