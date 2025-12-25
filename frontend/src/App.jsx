@@ -1,13 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { add } from "./redux/userInfoAction";
 import axios from "axios";
-import Home from "./component/Home";
-import Login from "./component/Login";
-import Register from "./component/Register";
-import Profile from "./component/Profile";
-import NotFound404 from "./component/NotFound404";
+import Loading from "./component/Loading";
+
+const Home = lazy(() => import("./component/Home"));
+const Login = lazy(() => import("./component/Login"));
+const Register = lazy(() => import("./component/Register"));
+const Profile = lazy(() => import("./component/Profile"));
+const NotFound404 = lazy(() => import("./component/NotFound404"));
 
 function App() {
   const user = useSelector((state) => state.userInfo.user);
@@ -33,20 +35,22 @@ function App() {
   }, []);
   return (
     <div className={darkMode ? "dark" : ""}>
-      <Routes>
-        {user ? (
-          <>
-            <Route index element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-          </>
-        ) : (
-          <>
-            <Route index element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </>
-        )}
-        <Route path="*" element={<NotFound404 />} />
-      </Routes>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          {user ? (
+            <>
+              <Route index element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+            </>
+          ) : (
+            <>
+              <Route index element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </>
+          )}
+          <Route path="*" element={<NotFound404 />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
