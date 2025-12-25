@@ -2,6 +2,8 @@
 
 A full-stack movie application built with the MERN stack (MongoDB, Express, React, Node.js). This platform allows users to browse movies, build their personal favorites list, and rent titles, featuring a modern UI and secure user authentication.
 
+**Live Website:** [https://mern-stack-movie-app.vercel.app/](https://mern-stack-movie-app.vercel.app/)
+
 ## Tech Stack
 
 ### Frontend
