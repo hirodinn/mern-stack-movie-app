@@ -27,7 +27,7 @@ function App() {
         );
         dispatch(add(u.data));
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
     loadUser();
