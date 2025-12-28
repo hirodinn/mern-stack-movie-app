@@ -51,7 +51,7 @@ A full-stack movie application built with the MERN stack (MongoDB, Express, Reac
 1.  **Clone the repository:**
 
     ```bash
-    git clone <repository-url>
+    git clone <https://github.com/hirodinn/mern-stack-movie-app.git>
     cd movie-rental
     ```
 
@@ -113,3 +113,4 @@ VITE_API_BASE_URL=http://localhost:5000/api
 
 - **Frontend:** Configured for Vercel (see `vercel.json`).
 - **Backend:** Configured for Render (see `render.yaml`).
+- **database:** Configured for railway (see `backend/.env`).
