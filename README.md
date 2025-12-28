@@ -4,6 +4,7 @@ A full-stack movie application built with the MERN stack (MongoDB, Express, Reac
 
 **Live Website:** [https://mern-stack-movie-app.vercel.app/](https://mern-stack-movie-app.vercel.app/)
 **Backend API Endpoint:** [https://mern-stack-movie-app-1.onrender.com](https://mern-stack-movie-app-1.onrender.com)
+**API Documentation (Swagger):** [https://mern-stack-movie-app-1.onrender.com/api-docs](https://mern-stack-movie-app-1.onrender.com/api-docs)
 
 ## Tech Stack
 
