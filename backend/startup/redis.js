@@ -14,10 +14,12 @@ client.on("connect", () => {
 });
 
 // Connect non-blockingly to allow app to start even if Redis is down
-client
-  .connect()
-  .catch((err) =>
-    logger.warn("Redis failed to connect initially. Check if it is running.")
-  );
+if (process.env.NODE_ENV !== "test") {
+  client
+    .connect()
+    .catch((err) =>
+      logger.warn("Redis failed to connect initially. Check if it is running.")
+    );
+}
 
 export default client;
