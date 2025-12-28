@@ -5,8 +5,12 @@ import { rateLimit } from "express-rate-limit";
 import users from "../routes/users.js";
 import cookieParser from "cookie-parser";
 import errorHandler from "../middleware/error.js";
+import swaggerSetup from "./swagger.js";
 
 export default function (app) {
+  // Documentation
+  swaggerSetup(app);
+
   // Security Middlewares
   app.use(helmet());
 

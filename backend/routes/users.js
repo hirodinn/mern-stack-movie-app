@@ -14,6 +14,34 @@ import { User, validateNewUser, validateOldUser } from "../model/user.js";
 
 const route = express.Router();
 
+/**
+ * @swagger
+ * /api/users:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               avatar:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: User registered successfully
+ *       400:
+ *         description: Email already exists
+ */
 route.post("/", upload.single("avatar"), async (req, res) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
@@ -50,6 +78,18 @@ route.post("/", upload.single("avatar"), async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/users/me:
+ *   get:
+ *     summary: Get current user profile
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Current user data
+ *       401:
+ *         description: Access denied
+ */
 route.get("/me", async (req, res) => {
   res.set({
     "Cache-Control": "no-store",
@@ -89,6 +129,29 @@ route.get("/me", async (req, res) => {
   res.send(user);
 });
 
+/**
+ * @swagger
+ * /api/users/login:
+ *   post:
+ *     summary: Login a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       404:
+ *         description: Email or password error
+ */
 route.post("/login", async (req, res) => {
   const { error } = validateOldUser(req.body);
   if (error)
@@ -120,6 +183,27 @@ route.post("/login", async (req, res) => {
       .json({ success: false, message: "email or password error" });
 });
 
+/**
+ * @swagger
+ * /api/users/favMovies:
+ *   post:
+ *     summary: Add or remove a movie from favorites
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               movieId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Updated user profile
+ *       401:
+ *         description: Access denied
+ */
 route.post("/favMovies", async (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).send("Access denied. No Token Provided!");
@@ -142,6 +226,16 @@ route.post("/favMovies", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/users/logout:
+ *   post:
+ *     summary: Logout user
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ */
 route.post("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
@@ -153,6 +247,30 @@ route.post("/logout", (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
+/**
+ * @swagger
+ * /api/users/profile:
+ *   put:
+ *     summary: Update user profile
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               avatar:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Profile updated successfully
+ */
 route.put("/profile", upload.single("avatar"), async (req, res) => {
   try {
     // 1️⃣ AUTH
